@@ -79,6 +79,11 @@ table.data td.no{color:var(--muted);text-align:center;width:36px}
 .msg{padding:9px 12px;border-radius:8px;font-size:12.5px;margin-top:10px;line-height:1.4}
 .msg.ok{background:#e6f4ea;color:#0b6b3a}.msg.warn{background:#fff4e5;color:#8a4b00}.msg.err{background:#fdecea;color:var(--err)}
 .zoom{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted)}
+#modal{position:fixed;inset:0;background:rgba(11,37,69,.55);display:none;place-items:center;z-index:60;padding:16px}
+#modal .bx{background:#fff;border-radius:12px;max-width:440px;width:100%;padding:20px 22px;box-shadow:0 10px 40px rgba(0,0,0,.25)}
+#modal h4{margin:0 0 10px;font-size:17px}
+#modal pre{background:#f3f6fa;border:1px solid var(--line);border-radius:8px;padding:12px;white-space:pre-wrap;word-break:break-word;font:13px/1.55 Consolas,monospace;margin:0 0 10px}
+#modal .ft{display:flex;justify-content:flex-end;margin-top:12px}
 #busy{position:fixed;inset:0;background:rgba(11,37,69,.55);display:none;place-items:center;z-index:50}
 #busy .bx{background:#fff;padding:22px 28px;border-radius:12px;min-width:300px;text-align:center}
 #busy .bar{height:8px;background:#e5e9f0;border-radius:4px;overflow:hidden;margin-top:12px}
@@ -171,6 +176,7 @@ header.top .user button{background:rgba(255,255,255,.12);color:#fff;border:1px s
   <img class="brandlogo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMDAgOTAiPjxkZWZzPjxsaW5lYXJHcmFkaWVudCBpZD0iZyIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iI0YyQjcwNSIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iI0U4NTkwQyIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHg9IjYiIHk9IjkiIHdpZHRoPSI3MiIgaGVpZ2h0PSI3MiIgcng9IjE4IiBmaWxsPSJ1cmwoI2cpIi8+PHRleHQgeD0iNDIiIHk9IjY2IiBmb250LWZhbWlseT0iQXJpYWwsIEhlbHZldGljYSwgc2Fucy1zZXJpZiIgZm9udC13ZWlnaHQ9IjgwMCIgZm9udC1zaXplPSI1MCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iI2ZmZiI+TDwvdGV4dD48dGV4dCB4PSI5NCIgeT0iNjIiIGZvbnQtZmFtaWx5PSJBcmlhbCwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmIiBmb250LXdlaWdodD0iODAwIiBmb250LXNpemU9IjQ2IiBmaWxsPSIjMGIyNTQ1Ij5MYXJpJ3NlPC90ZXh0Pjwvc3ZnPgo=" alt="Lari'se">
   <div><h1>Generator Pas Bandara</h1><small>Upload Excel → mockup pas + QR/barcode → cetak / PDF / PNG</small></div>
   <div class="sp"></div>
+  <div class="count" title="Versi aplikasi">v3.1 · 15 Okt 2026</div>
   <div class="count" id="countBadge">0 pas</div>
   <div class="user"><div class="av" id="uAv">?</div><span id="uName"></span><button id="btnLogout">Keluar</button></div>
 </header>
@@ -264,6 +270,7 @@ header.top .user button{background:rgba(255,255,255,.12);color:#fff;border:1px s
 </div>
 
 <div id="busy"><div class="bx"><b id="busyT">Memproses…</b><div class="bar"><i id="busyBar"></i></div><div class="hint" id="busyS"></div></div></div>
+<div id="modal"><div class="bx"><h4 id="mTitle"></h4><div id="mBody"></div><div class="ft"><button class="btn pri" id="mClose">Mengerti</button></div></div></div>
 <div id="printArea"></div>
 <input type="file" id="filePhotoOne" accept="image/*" hidden>
 
@@ -769,7 +776,7 @@ function renderCards() {
   v.innerHTML = '<div class="grid">' + list.map(([r, i]) =>
     '<div class="card">' + cardSVG(r) + '<div class="meta"><span class="nm" title="' + esc(r.nama) + '">' + esc(r.nama || "(tanpa nama)") + "</span>" +
     (r._photo ? '<span class="badge ok">foto ✓</span>' : '<span class="badge">tanpa foto</span>') +
-    '<span class="acts"><button class="btn sm" data-ph="' + i + '" title="Ganti foto">📷</button><button class="btn sm" data-png="' + i + '" title="Unduh PNG">⬇</button></span></div></div>').join("") + "</div>" +
+    '<span class="acts"><button class="btn sm" data-ph="' + i + '" title="Ganti foto">📷</button><button class="btn sm" data-qr="' + i + '" title="Lihat isi QR saat di-scan">QR</button><button class="btn sm" data-png="' + i + '" title="Unduh PNG">⬇</button></span></div></div>').join("") + "</div>" +
     (list.length ? "" : '<div class="empty">Tidak ada yang cocok dengan pencarian.</div>');
 }
 function renderData() {
@@ -784,6 +791,8 @@ function renderData() {
 }
 
 /* ---------- export ---------- */
+function showModal(t, html) { $("mTitle").textContent = t; $("mBody").innerHTML = html; $("modal").style.display = "grid"; }
+$("mClose").onclick = () => { $("modal").style.display = "none"; };
 function busy(on, t, p, sub) { $("busy").style.display = on ? "grid" : "none"; if (t) $("busyT").textContent = t; $("busyBar").style.width = ((p || 0) * 100) + "%"; $("busyS").textContent = sub || ""; }
 const tick = () => new Promise(r => setTimeout(r, 0));
 function svgToCanvas(svg, scale) {
@@ -989,6 +998,7 @@ async function exportDocx() {
     zip.file("word/document.xml", doc);
     busy(true, "Menyimpan Word…", 1);
     download(await zip.generateAsync({ type: "blob", mimeType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document" }), "Pas_Bandara_" + (a4 ? "A4_" : "") + new Date().toISOString().slice(0, 10) + ".docx");
+    setTimeout(() => showModal("File Word sudah diunduh", "<p style=\"margin:0 0 8px;line-height:1.5\">Semua tulisan (header, tanggal, area, nama, jabatan, instansi, nomor pas) adalah <b>teks biasa</b> — klik lalu ganti font/ukuran/isinya.</p><p style=\"margin:0;line-height:1.5\">Jika Word menampilkan bar kuning <b>“TAMPILAN TERPROTEKSI / PROTECTED VIEW”</b>, klik tombol <b>“Aktifkan Pengeditan / Enable Editing”</b> dulu — file hasil unduhan memang dibuka terkunci oleh Word.</p>"), 300);
   } catch (e) { console.error(e); alert("Gagal membuat Word: " + e.message); }
   busy(false);
 }
@@ -1099,6 +1109,8 @@ document.querySelectorAll(".tabs button").forEach(b => b.onclick = () => switchT
 let photoTarget = -1;
 document.addEventListener("click", e => {
   const ph = e.target.closest("[data-ph]"); if (ph) { photoTarget = +ph.dataset.ph; $("filePhotoOne").click(); return; }
+  const qb = e.target.closest("[data-qr]"); if (qb) { const r = rows[+qb.dataset.qr]; const pl = S.bc === "qr" ? qrPayload(r) : c128Payload(r);
+    showModal("Isi " + (S.bc === "qr" ? "QR Code" : "barcode") + " saat di-scan", "<pre>" + esc(pl || "(kosong)") + "</pre><div class=\"hint\">" + (S.bc === "qr" ? "Ubah di menu <b>3. Tampilan Kartu → Isi saat di-scan</b>." : "Barcode garis hanya bisa memuat No. Pas. Pilih <b>QR Code</b> agar nama, jabatan &amp; instansi ikut tampil.") + "</div>"); return; }
   const pn = e.target.closest("[data-png]"); if (pn) { exportOnePng(+pn.dataset.png); return; }
   const dl = e.target.closest("[data-del]"); if (dl) { const i = +dl.dataset.del; if (confirm("Hapus data " + (rows[i].nama || "#" + (i + 1)) + "?")) { rows.splice(i, 1); renderAll(); } return; }
   const ls = e.target.closest(".logo-slot"); if (ls) { logoTarget = ls.dataset.k; $("fileLogo").click(); }
