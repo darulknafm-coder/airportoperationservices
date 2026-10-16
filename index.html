@@ -161,6 +161,75 @@ header.top .user button{background:rgba(255,255,255,.12);color:#fff;border:1px s
   #printArea svg{display:block}
 }
 </style>
+<style>/* ===== Beranda AOS & modul APAR ===== */
+body.locked #homeView, body.locked #aparView, body.verifying #homeView, body.verifying #aparView{display:none!important}
+.view{display:none}
+.view.on{display:block}
+.wrap.view.on{display:grid}
+header.top .navhome{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.25);border-radius:8px;padding:7px 12px;font:inherit;font-size:13px;font-weight:600;cursor:pointer;text-decoration:none;display:none}
+header.top .navhome.on{display:inline-flex;align-items:center;gap:6px}
+#homeView{min-height:calc(100vh - 56px);background:radial-gradient(1200px 400px at 10% -10%,#1d4e89 0,transparent 60%),var(--bg)}
+.hero{background:linear-gradient(135deg,#0b2545 0%,#13315c 60%,#1d4e89 100%);color:#fff;padding:34px 28px 64px;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;right:-80px;top:-60px;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(242,183,5,.32),transparent 70%)}
+.hero .in{max-width:1080px;margin:0 auto;position:relative;z-index:1}
+.hero .kick{display:inline-block;background:rgba(242,183,5,.18);color:#ffd45c;border:1px solid rgba(242,183,5,.4);padding:4px 10px;border-radius:20px;font-size:12px;font-weight:700;letter-spacing:.4px}
+.hero h2{font-size:30px;margin:12px 0 6px;line-height:1.2}
+.hero p{margin:0;opacity:.85;max-width:620px;line-height:1.5}
+.hero .meta{display:flex;gap:18px;flex-wrap:wrap;margin-top:16px;font-size:13px;opacity:.9}
+.tiles{max-width:1080px;margin:-40px auto 40px;padding:0 20px;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px;position:relative;z-index:2}
+.tile{background:#fff;border-radius:16px;padding:22px;box-shadow:0 8px 24px rgba(16,24,40,.10);text-decoration:none;color:var(--text);display:flex;flex-direction:column;gap:10px;border:1px solid transparent;transition:.15s;min-height:190px}
+.tile:hover{transform:translateY(-2px);border-color:#c9d6ea;box-shadow:0 12px 28px rgba(16,24,40,.14)}
+.tile .ic{width:52px;height:52px;border-radius:14px;display:grid;place-items:center;font-size:26px}
+.tile h3{margin:4px 0 0;font-size:19px}
+.tile p{margin:0;color:var(--muted);line-height:1.5;font-size:13.5px;flex:1}
+.tile .go{font-weight:700;color:var(--navy);font-size:13.5px}
+.tile .stat{font-size:12.5px;color:var(--navy);background:#eef3fb;border-radius:8px;padding:6px 10px;align-self:flex-start}
+.tile.soon{opacity:.6;pointer-events:none;box-shadow:none;border:1px dashed #c3ccd9;background:transparent}
+/* APAR */
+#aparView{max-width:1180px;margin:0 auto;padding:16px 20px 60px}
+.ap-tabs{display:flex;gap:4px;background:#dfe5ee;padding:4px;border-radius:10px;flex-wrap:wrap;margin-bottom:16px}
+.ap-tabs a{padding:8px 14px;border-radius:8px;font-weight:650;color:var(--muted);text-decoration:none;font-size:13.5px}
+.ap-tabs a.on{background:#fff;color:var(--navy);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.ap-card{background:#fff;border-radius:12px;padding:16px;box-shadow:0 1px 3px rgba(16,24,40,.08);margin-bottom:14px}
+.ap-card h3{margin:0 0 12px;font-size:16px}
+.ap-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.ap-row .sp{flex:1}
+.kpis{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px;margin-bottom:14px}
+.kpi{background:#fff;border-radius:12px;padding:14px 16px;box-shadow:0 1px 3px rgba(16,24,40,.08);border-left:4px solid var(--navy)}
+.kpi b{display:block;font-size:28px;line-height:1.1}
+.kpi span{font-size:12.5px;color:var(--muted);font-weight:600}
+.kpi.ok{border-color:#0f9d58}.kpi.warn{border-color:#d97706}.kpi.bad{border-color:#c62828}
+.prog{height:10px;background:#e5e9f0;border-radius:6px;overflow:hidden;margin-top:6px}
+.prog i{display:block;height:100%;background:linear-gradient(90deg,#0f9d58,#34c27a)}
+table.ap{width:100%;border-collapse:collapse;font-size:13px}
+table.ap th{background:#f3f6fa;text-align:left;padding:8px;font-size:11.5px;text-transform:uppercase;letter-spacing:.3px;color:var(--muted);border-bottom:1px solid var(--line);white-space:nowrap}
+table.ap td{padding:8px;border-bottom:1px solid #eef1f5;vertical-align:top}
+.tag{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11.5px;font-weight:700;white-space:nowrap}
+.tag.ok{background:#e6f4ea;color:#0b6b3a}.tag.bad{background:#fdecea;color:#c62828}.tag.warn{background:#fff4e5;color:#8a4b00}.tag.mute{background:#eef1f5;color:#667085}
+.ap-form label.f{margin-top:12px}
+.ap-form input[type=text],.ap-form input[type=date],.ap-form input[type=month],.ap-form select,.ap-form textarea,#aparView input[type=month],#aparView .ap-in{width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:8px;font:inherit;background:#fff}
+.ap-form textarea{min-height:70px;resize:vertical}
+.ap-grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}
+.chk-item{display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid #eef1f5}
+.chk-item .lb{flex:1;font-size:14px;line-height:1.4}
+.yn{display:flex;gap:6px;flex:none}
+.yn button{border:1.5px solid var(--line);background:#fff;border-radius:8px;padding:7px 12px;font:inherit;font-weight:700;cursor:pointer;min-width:62px}
+.yn button.y.on{background:#0f9d58;border-color:#0f9d58;color:#fff}
+.yn button.n.on{background:#c62828;border-color:#c62828;color:#fff}
+.unit-box{background:#f7f9fc;border:1px solid var(--line);border-radius:10px;padding:12px;font-size:13.5px;line-height:1.6;margin-top:10px}
+.ap-photo{max-width:160px;border-radius:8px;display:block;margin-top:8px}
+.ap-empty{text-align:center;color:var(--muted);padding:30px}
+.ap-note{font-size:12.5px;color:var(--muted);line-height:1.5}
+.ap-modal{position:fixed;inset:0;background:rgba(11,37,69,.55);display:none;place-items:center;z-index:65;padding:14px}
+.ap-modal .bx{background:#fff;border-radius:14px;padding:18px 20px;width:100%;max-width:560px;max-height:92vh;overflow:auto}
+.ap-modal h4{margin:0 0 6px;font-size:17px}
+.cfg-item{display:flex;gap:6px;align-items:center;margin-bottom:6px}
+.cfg-item input{flex:1}
+@media (max-width:640px){.ap-grid2{grid-template-columns:1fr}.hero h2{font-size:24px}.yn button{min-width:54px;padding:7px 9px}table.ap.resp thead{display:none}table.ap.resp td{display:block;border:0;padding:3px 8px}table.ap.resp tr{display:block;border-bottom:1px solid var(--line);padding:6px 0}}
+@media print{#homeView,#aparView{display:none!important}}
+a.btn{text-decoration:none}
+@media (max-width:700px){header.top{gap:8px;padding:8px 12px}header.top small,header.top .count,header.top .user span{display:none}header.top h1{font-size:15px}header.top .brandlogo{height:28px}header.top .navhome{padding:6px 9px;font-size:12px}#aparView{padding:12px 12px 50px}.ap-tabs a{padding:7px 9px;font-size:12.5px}}
+</style>
 <style id="pageStyle"></style>
 </head>
 <body class="locked">
@@ -201,14 +270,15 @@ header.top .user button{background:rgba(255,255,255,.12);color:#fff;border:1px s
 
 <header class="top">
   <img class="brandlogo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMDAgOTAiPjxkZWZzPjxsaW5lYXJHcmFkaWVudCBpZD0iZyIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iI0YyQjcwNSIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iI0U4NTkwQyIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHg9IjYiIHk9IjkiIHdpZHRoPSI3MiIgaGVpZ2h0PSI3MiIgcng9IjE4IiBmaWxsPSJ1cmwoI2cpIi8+PHRleHQgeD0iNDIiIHk9IjY2IiBmb250LWZhbWlseT0iQXJpYWwsIEhlbHZldGljYSwgc2Fucy1zZXJpZiIgZm9udC13ZWlnaHQ9IjgwMCIgZm9udC1zaXplPSI1MCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iI2ZmZiI+TDwvdGV4dD48dGV4dCB4PSI5NCIgeT0iNjIiIGZvbnQtZmFtaWx5PSJBcmlhbCwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmIiBmb250LXdlaWdodD0iODAwIiBmb250LXNpemU9IjQ2IiBmaWxsPSIjMGIyNTQ1Ij5MYXJpJ3NlPC90ZXh0Pjwvc3ZnPgo=" alt="Lari'se">
-  <div><h1>Generator Pas Bandara</h1><small>Upload Excel → mockup pas + QR/barcode → cetak / PDF / PNG</small></div>
+  <div><h1 id="hdTitle">Generator Pas Bandara</h1><small id="hdSub">Upload Excel → mockup pas + QR/barcode → cetak / PDF / PNG</small></div>
+  <a class="navhome" id="navHome" href="#home">🏠 Beranda</a>
   <div class="sp"></div>
-  <div class="count" title="Versi aplikasi">v3.4 · 16 Okt 2026</div>
+  <div class="count" title="Versi aplikasi">v4.0 · 16 Okt 2026</div>
   <div class="count" id="countBadge">0 pas</div>
   <div class="user"><div class="av" id="uAv">?</div><span id="uName"></span><button id="btnLogout">Keluar</button></div>
 </header>
 
-<div class="wrap">
+<div class="wrap view" id="pasView">
 <aside>
   <details class="step" open>
     <summary><span class="n">1</span>Data Excel<span class="st" id="st1">belum ada</span></summary>
@@ -296,6 +366,9 @@ header.top .user button{background:rgba(255,255,255,.12);color:#fff;border:1px s
   <div id="viewData" style="display:none"></div>
 </main>
 </div>
+
+<div id="homeView" class="view"></div>
+<div id="aparView" class="view"></div>
 
 <div id="busy"><div class="bx"><b id="busyT">Memproses…</b><div class="bar"><i id="busyBar"></i></div><div class="hint" id="busyS"></div></div></div>
 <div id="cropper"><div class="cbx">
@@ -1244,6 +1317,387 @@ $("viewData").addEventListener("input", e => {
 $("viewData").addEventListener("change", e => { if (e.target.dataset.f === "berlaku") { e.target.value = rows[+e.target.dataset.i].berlaku = fmtDate(e.target.value); } $("countBadge").textContent = rows.length + " pas"; });
 window.addEventListener("afterprint", () => { $("printArea").innerHTML = ""; });
 
+/* =====================================================================
+   BERANDA AOS + MODUL CHECKLIST APAR
+   ===================================================================== */
+let CURRENT_USER = null;
+
+/* ---------- Penyimpanan: Firestore (online) atau browser (lokal) ---------- */
+const LocalStore = {
+  _k: c => "aos_" + c,
+  _get(c) { try { return JSON.parse(localStorage.getItem(this._k(c))) || {}; } catch (e) { return {}; } },
+  _set(c, v) { try { localStorage.setItem(this._k(c), JSON.stringify(v)); } catch (e) { throw new Error("Penyimpanan browser penuh. Hapus sebagian data/foto atau aktifkan mode online."); } },
+  async list(c, where) { const o = this._get(c); return Object.keys(o).map(id => Object.assign({ id }, o[id])).filter(d => !where || d[where[0]] === where[1]); },
+  async get(c, id) { const o = this._get(c); return o[id] ? Object.assign({ id }, o[id]) : null; },
+  async put(c, id, data) { const o = this._get(c); o[id] = Object.assign({}, o[id] || {}, data); this._set(c, o); return id; },
+  async add(c, data) { const id = Date.now().toString(36) + Math.random().toString(36).slice(2, 7); return this.put(c, id, data); },
+  async del(c, id) { const o = this._get(c); delete o[id]; this._set(c, o); }
+};
+const FireStore = {
+  db() { return firebase.firestore(); },
+  _err(e) { if (e && e.code === "permission-denied") return new Error("Akses database ditolak. Pastikan Firestore sudah aktif dan Rules mengizinkan pengguna login (lihat panduan)."); if (e && e.code === "unavailable") return new Error("Tidak bisa terhubung ke database. Periksa koneksi internet."); return e; },
+  async list(c, where) { try { let q = this.db().collection(c); if (where) q = q.where(where[0], "==", where[1]); const s = await q.get(); return s.docs.map(d => Object.assign({ id: d.id }, d.data())); } catch (e) { throw this._err(e); } },
+  async get(c, id) { try { const d = await this.db().collection(c).doc(id).get(); return d.exists ? Object.assign({ id: d.id }, d.data()) : null; } catch (e) { throw this._err(e); } },
+  async put(c, id, data) { try { await this.db().collection(c).doc(id).set(data, { merge: true }); return id; } catch (e) { throw this._err(e); } },
+  async add(c, data) { try { const r = await this.db().collection(c).add(data); return r.id; } catch (e) { throw this._err(e); } },
+  async del(c, id) { try { await this.db().collection(c).doc(id).delete(); } catch (e) { throw this._err(e); } }
+};
+const Store = () => (Auth.online && typeof firebase !== "undefined" && firebase.firestore) ? FireStore : LocalStore;
+
+/* ---------- util ---------- */
+const pad2 = n => String(n).padStart(2, "0");
+const todayISO = () => { const d = new Date(); return d.getFullYear() + "-" + pad2(d.getMonth() + 1) + "-" + pad2(d.getDate()); };
+const thisMonth = () => todayISO().slice(0, 7);
+const BULAN = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+const monthLabel = p => { const [y, m] = p.split("-"); return BULAN[+m - 1] + " " + y; };
+const fmtID = iso => { if (!iso) return "-"; const d = String(iso).slice(0, 10).split("-"); return d.length === 3 ? (+d[2]) + " " + MONTHS[+d[1] - 1] + " " + d[0] : iso; };
+const daysTo = iso => { if (!iso) return null; const t = new Date(iso + "T00:00:00"); if (isNaN(t)) return null; const n = new Date(); n.setHours(0, 0, 0, 0); return Math.round((t - n) / 86400000); };
+function toISO(v) {
+  if (v == null || v === "") return "";
+  if (typeof v === "number" || /^\d{5}(\.\d+)?$/.test(String(v).trim())) { const d = new Date(Math.round((Number(v) - 25569) * 86400000)); return d.getUTCFullYear() + "-" + pad2(d.getUTCMonth() + 1) + "-" + pad2(d.getUTCDate()); }
+  const s = String(v).trim().toUpperCase(); let m;
+  if ((m = s.match(/^(\d{4})[-/.](\d{1,2})[-/.](\d{1,2})/))) return m[1] + "-" + pad2(m[2]) + "-" + pad2(m[3]);
+  if ((m = s.match(/^(\d{1,2})[-/.](\d{1,2})[-/.](\d{2,4})$/))) return (m[3].length === 2 ? "20" + m[3] : m[3]) + "-" + pad2(m[2]) + "-" + pad2(m[1]);
+  const MI = { JAN: 1, FEB: 2, MAR: 3, APR: 4, MEI: 5, MAY: 5, JUN: 6, JUL: 7, AGU: 8, AGT: 8, AUG: 8, SEP: 9, OKT: 10, OCT: 10, NOV: 11, DES: 12, DEC: 12 };
+  if ((m = s.match(/^(\d{1,2})\s+([A-Z]{3})[A-Z]*\s+(\d{4})$/)) && MI[m[2]]) return m[3] + "-" + pad2(MI[m[2]]) + "-" + pad2(m[1]);
+  return "";
+}
+const unitId = kode => String(kode || "").trim().toUpperCase().replace(/[\/\\#?\[\]\s]+/g, "_");
+function makeXlsx(sheetName, rows, widths) {
+  const cl = i => { let s = ""; i++; while (i) { const r = (i - 1) % 26; s = String.fromCharCode(65 + r) + s; i = Math.floor((i - 1) / 26); } return s; };
+  const sheet = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">' +
+    (widths ? "<cols>" + widths.map((w, i) => '<col min="' + (i + 1) + '" max="' + (i + 1) + '" width="' + w + '" customWidth="1"/>').join("") + "</cols>" : "") + "<sheetData>" +
+    rows.map((r, ri) => '<row r="' + (ri + 1) + '">' + r.map((v, ci) => '<c r="' + cl(ci) + (ri + 1) + '" t="inlineStr"' + (ri === 0 ? ' s="1"' : "") + "><is><t xml:space=\"preserve\">" + esc(v == null ? "" : v) + "</t></is></c>").join("") + "</row>").join("") + "</sheetData></worksheet>";
+  const z = new JSZip();
+  z.file("[Content_Types].xml", '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/></Types>');
+  z.file("_rels/.rels", '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>');
+  z.file("xl/workbook.xml", '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets><sheet name="' + esc(sheetName.slice(0, 31)) + '" sheetId="1" r:id="rId1"/></sheets></workbook>');
+  z.file("xl/_rels/workbook.xml.rels", '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>');
+  z.file("xl/styles.xml", '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><fonts count="2"><font><sz val="11"/><name val="Calibri"/></font><font><b/><sz val="11"/><name val="Calibri"/></font></fonts><fills count="3"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill><fill><patternFill patternType="solid"><fgColor rgb="FFFFD966"/></patternFill></fill></fills><borders count="1"><border/></borders><cellStyleXfs count="1"><xf/></cellStyleXfs><cellXfs count="2"><xf/><xf fontId="1" fillId="2" applyFont="1" applyFill="1"/></cellXfs></styleSheet>');
+  z.file("xl/worksheets/sheet1.xml", sheet);
+  return z.generateAsync({ type: "blob", mimeType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+}
+
+/* ---------- Router ---------- */
+const VIEWS = { home: "homeView", pas: "pasView", apar: "aparView" };
+const TITLES = { home: ["Airport Operation & Services", "Bandar Udara Husein Sastranegara"], pas: ["Generator Pas Bandara", "Upload Excel → mockup pas + QR/barcode → cetak / PDF / PNG"], apar: ["Checklist APAR", "Inspeksi Alat Pemadam Api Ringan"] };
+function route() {
+  if (!CURRENT_USER) return;
+  const parts = location.hash.replace(/^#\/?/, "").split("/"); let v = parts[0] || "home"; if (!VIEWS[v]) v = "home";
+  Object.keys(VIEWS).forEach(k => $(VIEWS[k]).classList.toggle("on", k === v));
+  $("hdTitle").textContent = TITLES[v][0]; $("hdSub").textContent = TITLES[v][1];
+  $("navHome").classList.toggle("on", v !== "home");
+  $("countBadge").style.display = v === "pas" ? "" : "none";
+  document.title = TITLES[v][0] + " — AOS";
+  if (v === "home") Home.render();
+  if (v === "pas") renderAll();
+  if (v === "apar") Apar.open(parts[1] || "dash", decodeURIComponent(parts[2] || ""));
+  window.scrollTo(0, 0);
+}
+window.addEventListener("hashchange", route);
+
+/* ---------- Beranda ---------- */
+const Home = {
+  render() {
+    const h = new Date().getHours(), salam = h < 11 ? "Selamat pagi" : h < 15 ? "Selamat siang" : h < 18 ? "Selamat sore" : "Selamat malam";
+    $("homeView").innerHTML = '<div class="hero"><div class="in"><span class="kick">AIRPORT OPERATION &amp; SERVICES</span>' +
+      "<h2>" + salam + ", " + esc((CURRENT_USER && CURRENT_USER.name) || "") + "</h2>" +
+      "<p>Portal kerja unit Airport Operation &amp; Services — Bandar Udara Husein Sastranegara. Pilih modul di bawah untuk mulai bekerja.</p>" +
+      '<div class="meta"><span>📅 ' + new Date().toLocaleDateString("id-ID", { weekday: "long", day: "numeric", month: "long", year: "numeric" }) + "</span><span>" + (Auth.online ? "🔒 Akun online" : "💻 Mode lokal") + "</span></div></div></div>" +
+      '<div class="tiles">' +
+      '<a class="tile" href="#pas"><div class="ic" style="background:#fff5cc">🪪</div><h3>Generator Pas Bandara</h3><p>Buat mockup pas bandara massal dari Excel lengkap dengan foto, QR Cek Pas, jabatan, instansi &amp; nomor pas. Unduh PDF, Word, atau PNG.</p><span class="go">Buka modul →</span></a>' +
+      '<a class="tile" href="#apar"><div class="ic" style="background:#fde3e3">🧯</div><h3>Checklist APAR</h3><p>Inspeksi bulanan Alat Pemadam Api Ringan: scan QR di tabung, isi checklist dari HP, pantau status &amp; kedaluwarsa, unduh rekap.</p><span class="stat" id="homeAparStat">Memuat ringkasan…</span><span class="go">Buka modul →</span></a>' +
+      '<div class="tile soon"><div class="ic" style="background:#e8eef7">➕</div><h3>Modul berikutnya</h3><p>Segera hadir — modul operasional lain dapat ditambahkan di sini.</p></div>' +
+      "</div>";
+    Apar.loadAll().then(() => { const s = Apar.summary(thisMonth()); const el = $("homeAparStat"); if (el) el.textContent = s.total ? s.total + " APAR · " + s.checked + " sudah dicek bulan ini · " + s.bad + " perlu tindakan" : "Belum ada data APAR"; })
+      .catch(e => { const el = $("homeAparStat"); if (el) el.textContent = "⚠ " + e.message; });
+  }
+};
+
+/* ---------- Modul APAR ---------- */
+const DEFAULT_ITEMS = [
+  "Tekanan pada manometer berada di zona hijau",
+  "Pin pengaman & segel masih utuh",
+  "Selang dan nozzle baik (tidak retak/tersumbat)",
+  "Tabung tidak berkarat, penyok, atau bocor",
+  "Label & petunjuk penggunaan terbaca jelas",
+  "Posisi mudah dijangkau, tidak terhalang",
+  "Rambu/tanda APAR terpasang dan terlihat",
+  "Tanda pemeriksaan/kartu gantung terpasang",
+  "Belum melewati tanggal kedaluwarsa / isi ulang"
+];
+const JENIS = ["Powder (Dry Chemical)", "CO2", "Foam (AFFF)", "Clean Agent", "Air (Water)", "Lainnya"];
+const Apar = {
+  units: [], checks: [], items: DEFAULT_ITEMS.slice(), loaded: false, tab: "dash", period: thisMonth(), q: "", form: null,
+  async loadAll(force) {
+    if (this.loaded && !force) return;
+    const st = Store();
+    const [u, c, cfg] = await Promise.all([st.list("apar_units"), st.list("apar_checks"), st.get("apar_config", "checklist")]);
+    this.units = u.sort((a, b) => String(a.kode).localeCompare(String(b.kode), "id", { numeric: true }));
+    this.checks = c.sort((a, b) => String(b.waktu || "").localeCompare(String(a.waktu || "")));
+    if (cfg && Array.isArray(cfg.items) && cfg.items.length) this.items = cfg.items;
+    this.loaded = true;
+  },
+  lastCheck(uid, period) { return this.checks.find(c => c.unitId === uid && (!period || c.periode === period)); },
+  summary(period) {
+    const act = this.units.filter(u => u.aktif !== false);
+    let checked = 0, bad = 0;
+    act.forEach(u => { const c = this.lastCheck(u.id, period); if (c) { checked++; if (c.status !== "Baik") bad++; } });
+    const exp = act.filter(u => { const d = daysTo(u.kedaluwarsa); return d != null && d < 0; }).length;
+    const soon = act.filter(u => { const d = daysTo(u.kedaluwarsa); return d != null && d >= 0 && d <= 30; }).length;
+    return { total: act.length, checked, unchecked: act.length - checked, bad, exp, soon };
+  },
+  async open(tab, arg) {
+    this.tab = tab; const v = $("aparView");
+    const T = [["dash", "📊 Dashboard"], ["units", "🧯 Daftar APAR"], ["cek", "✅ Cek APAR"], ["rekap", "📄 Rekap"], ["cfg", "⚙ Item Checklist"]];
+    v.innerHTML = '<nav class="ap-tabs">' + T.map(t => '<a href="#apar/' + t[0] + '" class="' + (t[0] === tab ? "on" : "") + '">' + t[1] + "</a>").join("") + '</nav><div id="apBody"><div class="ap-empty">Memuat data…</div></div>' +
+      '<div class="ap-modal" id="apModal"><div class="bx" id="apModalBx"></div></div>' + (Auth.online ? "" : '<p class="ap-note" style="margin-top:14px">💻 Mode lokal: data APAR tersimpan di browser ini saja.</p>');
+    try { await this.loadAll(); } catch (e) { $("apBody").innerHTML = '<div class="msg err">' + esc(e.message) + "</div>"; return; }
+    ({ dash: () => this.vDash(), units: () => this.vUnits(), cek: () => this.vCek(arg), rekap: () => this.vRekap(), cfg: () => this.vCfg() }[tab] || (() => this.vDash()))();
+  },
+  periodPicker(id) { return '<input type="month" id="' + id + '" value="' + this.period + '" style="max-width:190px">'; },
+  /* ---- Dashboard ---- */
+  vDash() {
+    const s = this.summary(this.period), pct = s.total ? Math.round(s.checked / s.total * 100) : 0;
+    const act = this.units.filter(u => u.aktif !== false);
+    const belum = act.filter(u => !this.lastCheck(u.id, this.period));
+    const masalah = act.map(u => [u, this.lastCheck(u.id, this.period)]).filter(x => x[1] && x[1].status !== "Baik");
+    const kd = act.filter(u => { const d = daysTo(u.kedaluwarsa); return d != null && d <= 30; }).sort((a, b) => daysTo(a.kedaluwarsa) - daysTo(b.kedaluwarsa));
+    const li = (u, extra) => "<tr><td><b>" + esc(u.kode) + "</b></td><td>" + esc(u.lokasi || "") + "</td><td>" + extra + '</td><td style="text-align:right"><a class="btn sm" href="#apar/cek/' + encodeURIComponent(u.kode) + '">Cek</a></td></tr>';
+    $("apBody").innerHTML = '<div class="ap-row" style="margin-bottom:12px"><b>Periode</b>' + this.periodPicker("apPer") + '<div class="sp"></div><a class="btn pri" href="#apar/cek">✅ Mulai cek APAR</a></div>' +
+      (s.total ? "" : '<div class="ap-card"><b>Belum ada data APAR.</b> <span class="ap-note">Tambahkan satu per satu atau import dari Excel di tab <a href="#apar/units">Daftar APAR</a>.</span></div>') +
+      '<div class="kpis"><div class="kpi"><b>' + s.total + '</b><span>Total APAR aktif</span></div>' +
+      '<div class="kpi ok"><b>' + s.checked + '</b><span>Sudah dicek (' + pct + '%)</span><div class="prog"><i style="width:' + pct + '%"></i></div></div>' +
+      '<div class="kpi warn"><b>' + s.unchecked + '</b><span>Belum dicek</span></div>' +
+      '<div class="kpi bad"><b>' + s.bad + '</b><span>Perlu tindakan</span></div>' +
+      '<div class="kpi bad"><b>' + s.exp + '</b><span>Sudah kedaluwarsa</span></div>' +
+      '<div class="kpi warn"><b>' + s.soon + '</b><span>Kedaluwarsa ≤ 30 hari</span></div></div>' +
+      (masalah.length ? '<div class="ap-card"><h3>⚠ Perlu tindakan — ' + monthLabel(this.period) + '</h3><table class="ap resp"><tbody>' + masalah.map(([u, c]) => li(u, '<span class="tag bad">Perlu tindakan</span> Tidak sesuai: ' + esc((c.gagal || []).join("; ")) + (c.catatan ? '<div class="ap-note">Catatan: ' + esc(c.catatan) + "</div>" : ""))).join("") + "</tbody></table></div>" : "") +
+      (kd.length ? '<div class="ap-card"><h3>⏳ Kedaluwarsa / segera kedaluwarsa</h3><table class="ap resp"><tbody>' + kd.map(u => { const d = daysTo(u.kedaluwarsa); return li(u, (d < 0 ? '<span class="tag bad">Lewat ' + (-d) + " hari</span>" : '<span class="tag warn">' + d + " hari lagi</span>") + " " + fmtID(u.kedaluwarsa)); }).join("") + "</tbody></table></div>" : "") +
+      (belum.length && s.total ? '<div class="ap-card"><h3>Belum dicek — ' + monthLabel(this.period) + " (" + belum.length + ')</h3><table class="ap resp"><tbody>' + belum.slice(0, 50).map(u => li(u, esc(u.jenis || "") + (u.kapasitas ? " · " + esc(u.kapasitas) : ""))).join("") + "</tbody></table>" + (belum.length > 50 ? '<p class="ap-note">…dan ' + (belum.length - 50) + " lainnya.</p>" : "") + "</div>" : "");
+    $("apPer").onchange = e => { this.period = e.target.value || thisMonth(); this.vDash(); };
+  },
+  /* ---- Daftar APAR ---- */
+  vUnits() {
+    const q = this.q.toLowerCase();
+    const list = this.units.filter(u => !q || [u.kode, u.lokasi, u.area, u.jenis].join(" ").toLowerCase().includes(q));
+    $("apBody").innerHTML = '<div class="ap-card"><div class="ap-row"><input class="ap-in" id="apQ" placeholder="Cari kode / lokasi / area…" value="' + esc(this.q) + '" style="max-width:280px"><div class="sp"></div>' +
+      '<button class="btn" id="apTpl">⬇ Template Excel</button><button class="btn" id="apImp">⬆ Import Excel</button><button class="btn" id="apQRpdf">🏷 Stiker QR (PDF)</button><button class="btn pri" id="apAdd">＋ Tambah APAR</button></div>' +
+      '<input type="file" id="apImpF" accept=".xlsx,.csv" hidden><div id="apUMsg"></div></div>' +
+      '<div class="ap-card" style="overflow:auto"><table class="ap resp"><thead><tr><th>Kode</th><th>Lokasi</th><th>Jenis / Kapasitas</th><th>Isi ulang</th><th>Kedaluwarsa</th><th>Cek terakhir</th><th></th></tr></thead><tbody>' +
+      (list.length ? list.map(u => {
+        const d = daysTo(u.kedaluwarsa), c = this.lastCheck(u.id);
+        return "<tr><td><b>" + esc(u.kode) + "</b>" + (u.aktif === false ? ' <span class="tag mute">nonaktif</span>' : "") + "</td><td>" + esc(u.lokasi || "") + (u.area ? '<div class="ap-note">' + esc(u.area) + "</div>" : "") + "</td><td>" + esc(u.jenis || "-") + (u.kapasitas ? " · " + esc(u.kapasitas) : "") + (u.merk ? '<div class="ap-note">' + esc(u.merk) + "</div>" : "") + "</td>" +
+          "<td>" + fmtID(u.isiUlang) + "</td><td>" + fmtID(u.kedaluwarsa) + (d == null ? "" : d < 0 ? ' <span class="tag bad">lewat</span>' : d <= 30 ? ' <span class="tag warn">' + d + " hr</span>" : "") + "</td>" +
+          "<td>" + (c ? fmtID(c.tanggal) + ' <span class="tag ' + (c.status === "Baik" ? "ok" : "bad") + '">' + esc(c.status) + "</span>" : '<span class="tag mute">belum</span>') + "</td>" +
+          '<td style="white-space:nowrap;text-align:right"><a class="btn sm" href="#apar/cek/' + encodeURIComponent(u.kode) + '">Cek</a> <button class="btn sm" data-ued="' + esc(u.id) + '">Edit</button></td></tr>';
+      }).join("") : '<tr><td colspan="7" class="ap-empty">' + (this.units.length ? "Tidak ada yang cocok." : "Belum ada APAR. Klik <b>＋ Tambah APAR</b> atau <b>Import Excel</b>.") + "</td></tr>") + "</tbody></table></div>";
+    $("apQ").oninput = e => { this.q = e.target.value; const pos = e.target.selectionStart; this.vUnits(); const el = $("apQ"); el.focus(); el.setSelectionRange(pos, pos); };
+    $("apAdd").onclick = () => this.unitModal(null);
+    $("apTpl").onclick = async () => download(await makeXlsx("Data APAR", [["KODE", "LOKASI", "AREA / GEDUNG", "JENIS", "KAPASITAS", "MERK", "TGL ISI ULANG", "KEDALUWARSA"],
+      ["APAR-001", "Terminal Keberangkatan - dekat Gate 1", "Terminal", "Powder (Dry Chemical)", "6 kg", "Yamato", "2026-01-15", "2027-01-15"],
+      ["APAR-002", "Ruang Genset", "Gedung Utilitas", "CO2", "5 kg", "Servvo", "2026-03-01", "2027-03-01"]], [12, 38, 18, 22, 11, 12, 15, 15]), "Template_Data_APAR.xlsx");
+    $("apImp").onclick = () => $("apImpF").click();
+    $("apImpF").onchange = e => { const f = e.target.files[0]; e.target.value = ""; if (f) this.importUnits(f); };
+    $("apQRpdf").onclick = () => this.qrLabels(list.filter(u => u.aktif !== false));
+    $("apBody").querySelectorAll("[data-ued]").forEach(b => b.onclick = () => this.unitModal(this.units.find(u => u.id === b.dataset.ued)));
+  },
+  modal(html) { $("apModalBx").innerHTML = html; $("apModal").style.display = "grid"; },
+  closeModal() { $("apModal").style.display = "none"; },
+  unitModal(u) {
+    const n = !u; u = u || { aktif: true };
+    this.modal("<h4>" + (n ? "Tambah APAR" : "Edit APAR " + esc(u.kode)) + '</h4><div class="ap-form">' +
+      '<div class="ap-grid2"><div><label class="f">Kode APAR *</label><input type="text" id="fuKode" value="' + esc(u.kode || "") + '" ' + (n ? "" : "disabled") + ' placeholder="APAR-001"></div>' +
+      '<div><label class="f">Jenis</label><select id="fuJenis">' + JENIS.map(j => "<option" + (u.jenis === j ? " selected" : "") + ">" + j + "</option>").join("") + "</select></div></div>" +
+      '<label class="f">Lokasi *</label><input type="text" id="fuLok" value="' + esc(u.lokasi || "") + '" placeholder="Terminal Keberangkatan - dekat Gate 1">' +
+      '<div class="ap-grid2"><div><label class="f">Area / Gedung</label><input type="text" id="fuArea" value="' + esc(u.area || "") + '"></div>' +
+      '<div><label class="f">Kapasitas</label><input type="text" id="fuKap" value="' + esc(u.kapasitas || "") + '" placeholder="6 kg"></div>' +
+      '<div><label class="f">Merk</label><input type="text" id="fuMerk" value="' + esc(u.merk || "") + '"></div>' +
+      '<div><label class="f">Tanggal isi ulang</label><input type="date" id="fuIsi" value="' + esc(u.isiUlang || "") + '"></div>' +
+      '<div><label class="f">Kedaluwarsa</label><input type="date" id="fuExp" value="' + esc(u.kedaluwarsa || "") + '"></div>' +
+      '<div><label class="f">Status</label><select id="fuAkt"><option value="1"' + (u.aktif !== false ? " selected" : "") + '>Aktif</option><option value="0"' + (u.aktif === false ? " selected" : "") + ">Nonaktif</option></select></div></div>" +
+      '<div id="fuMsg"></div><div class="ap-row" style="margin-top:16px">' + (n ? "" : '<button class="btn" id="fuDel" style="color:var(--err)">Hapus</button>') + '<div class="sp"></div><button class="btn" id="fuX">Batal</button><button class="btn pri" id="fuOk">Simpan</button></div></div>');
+    $("fuX").onclick = () => this.closeModal();
+    $("fuOk").onclick = async () => {
+      const kode = (n ? $("fuKode").value : u.kode).trim().toUpperCase(), lok = $("fuLok").value.trim();
+      if (!kode || !lok) return msg("fuMsg", "err", "Kode dan lokasi wajib diisi.");
+      const id = unitId(kode); if (n && this.units.some(x => x.id === id)) return msg("fuMsg", "err", "Kode " + esc(kode) + " sudah ada.");
+      const data = { kode, lokasi: lok, area: $("fuArea").value.trim(), jenis: $("fuJenis").value, kapasitas: $("fuKap").value.trim(), merk: $("fuMerk").value.trim(),
+        isiUlang: $("fuIsi").value, kedaluwarsa: $("fuExp").value, aktif: $("fuAkt").value === "1", diubah: new Date().toISOString(), diubahOleh: CURRENT_USER ? CURRENT_USER.email : "" };
+      try { $("fuOk").disabled = true; await Store().put("apar_units", id, data); await this.loadAll(true); this.closeModal(); this.vUnits(); } catch (e) { $("fuOk").disabled = false; msg("fuMsg", "err", esc(e.message)); }
+    };
+    if (!n) $("fuDel").onclick = async () => { if (!confirm("Hapus APAR " + u.kode + "? Riwayat pengecekannya tetap tersimpan.")) return; try { await Store().del("apar_units", u.id); await this.loadAll(true); this.closeModal(); this.vUnits(); } catch (e) { msg("fuMsg", "err", esc(e.message)); } };
+  },
+  async importUnits(file) {
+    try {
+      const grid = /\.csv$/i.test(file.name) ? readCsv(await file.text()) : await readXlsx(await file.arrayBuffer());
+      let hi = grid.findIndex(r => r && r.some(c => /kode/i.test(String(c || "")))); if (hi < 0) throw new Error("Kolom KODE tidak ditemukan.");
+      const H = grid[hi].map(normH); const col = keys => H.findIndex(h => keys.some(k => h === k || (k.length > 3 && h.includes(k))));
+      const ix = { kode: col(["KODE", "KODEAPAR", "NOAPAR"]), lokasi: col(["LOKASI"]), area: col(["AREA", "GEDUNG", "AREAGEDUNG"]), jenis: col(["JENIS", "TIPE"]), kapasitas: col(["KAPASITAS", "BERAT"]), merk: col(["MERK", "MEREK"]), isi: col(["TGLISIULANG", "ISIULANG", "REFILL"]), exp: col(["KEDALUWARSA", "KADALUARSA", "KADALUWARSA", "EXPIRED"]) };
+      const g = (r, k) => ix[k] < 0 ? "" : (r[ix[k]] == null ? "" : r[ix[k]]);
+      let n = 0, skip = 0; const st = Store();
+      for (let i = hi + 1; i < grid.length; i++) {
+        const r = grid[i]; if (!r) continue; const kode = String(g(r, "kode")).trim().toUpperCase(); if (!kode) { continue; }
+        const lok = String(g(r, "lokasi")).trim(); if (!lok) { skip++; continue; }
+        busy(true, "Mengimpor APAR…", i / grid.length, kode); await tick();
+        await st.put("apar_units", unitId(kode), { kode, lokasi: lok, area: String(g(r, "area")).trim(), jenis: String(g(r, "jenis")).trim(), kapasitas: String(g(r, "kapasitas")).trim(), merk: String(g(r, "merk")).trim(),
+          isiUlang: toISO(g(r, "isi")), kedaluwarsa: toISO(g(r, "exp")), aktif: true, diubah: new Date().toISOString(), diubahOleh: CURRENT_USER ? CURRENT_USER.email : "" });
+        n++;
+      }
+      busy(false); await this.loadAll(true); this.vUnits();
+      msg("apUMsg", n ? "ok" : "warn", "<b>" + n + " APAR</b> diimpor/diperbarui dari " + esc(file.name) + "." + (skip ? " " + skip + " baris dilewati karena lokasi kosong." : ""));
+    } catch (e) { busy(false); msg("apUMsg", "err", "Gagal import: " + esc(e.message)); }
+  },
+  cekUrl(kode) { return webBase() + "#apar/cek/" + encodeURIComponent(kode); },
+  async qrLabels(list) {
+    if (!list.length) return alert("Belum ada APAR aktif untuk dibuatkan stiker.");
+    const { PDFDocument, StandardFonts, rgb } = PDFLib; const pdf = await PDFDocument.create();
+    const F = await pdf.embedFont(StandardFonts.Helvetica), FB = await pdf.embedFont(StandardFonts.HelveticaBold);
+    const mm = v => v * 72 / 25.4, W = 63.5, H = 38.1, cols = 3, rows = 7, mx = (210 - cols * W) / 2, my = (297 - rows * H) / 2;
+    const clean = s => String(s || "").replace(/[^\x20-\x7E -ÿ]/g, "");
+    const fit = (t, f, size, max) => { t = clean(t); while (t && f.widthOfTextAtSize(t, size) > max) t = t.slice(0, -1); return t; };
+    const wrap2 = (t, f, size, max) => { const w = clean(t).split(/\s+/); const L = []; let cur = ""; for (const x of w) { const tt = cur ? cur + " " + x : x; if (f.widthOfTextAtSize(tt, size) <= max) cur = tt; else { if (cur) L.push(cur); cur = x; } } if (cur) L.push(cur); return L.slice(0, 2).map(l => fit(l, f, size, max)); };
+    let page;
+    for (let k = 0; k < list.length; k++) {
+      const u = list[k], pos = k % (cols * rows); if (pos === 0) page = pdf.addPage([mm(210), mm(297)]);
+      const x0 = mx + (pos % cols) * W, y0 = my + Math.floor(pos / cols) * H; const X = v => mm(x0 + v), Y = v => mm(297 - y0 - v);
+      page.drawRectangle({ x: X(0.6), y: Y(H - 0.6), width: mm(W - 1.2), height: mm(H - 1.2), borderColor: rgb(.75, .78, .82), borderWidth: .5 });
+      page.drawRectangle({ x: X(0.6), y: Y(7.6), width: mm(W - 1.2), height: mm(7), color: rgb(.78, .1, .1) });
+      page.drawText("APAR - CEK BULANAN", { x: X(3), y: Y(5.4), size: 8.5, font: FB, color: rgb(1, 1, 1) });
+      const m = Codes.qr(this.cekUrl(u.kode)), n = m.length, qs = 27, q = 4, us = qs / (n + q * 2), qx = 1.8, qy = 9.0;
+      for (let i = 0; i < n; i++) { let j = 0; while (j < n) { if (!m[i][j]) { j++; continue; } let e = j; while (e < n && m[i][e]) e++;
+        page.drawRectangle({ x: X(qx + (j + q) * us), y: Y(qy + (i + q + 1) * us) - 0.15, width: mm((e - j) * us) + 0.3, height: mm(us) + 0.3, color: rgb(0, 0, 0) }); j = e; } }
+      const tx = 31, tw2 = W - tx - 2.5;
+      page.drawText(fit(u.kode, FB, 11, mm(tw2)), { x: X(tx), y: Y(13.5), size: 11, font: FB });
+      wrap2(u.lokasi, F, 7, mm(tw2)).forEach((l, i) => page.drawText(l, { x: X(tx), y: Y(18 + i * 3.2), size: 7, font: F }));
+      page.drawText(fit([u.jenis, u.kapasitas].filter(Boolean).join(" - "), F, 6.5, mm(tw2)), { x: X(tx), y: Y(25.6), size: 6.5, font: F, color: rgb(.3, .3, .3) });
+      if (u.kedaluwarsa) page.drawText(fit("Exp: " + fmtID(u.kedaluwarsa), F, 6.5, mm(tw2)), { x: X(tx), y: Y(28.8), size: 6.5, font: F, color: rgb(.3, .3, .3) });
+      page.drawText("Scan QR untuk isi checklist", { x: X(tx), y: Y(34.2), size: 5.8, font: FB, color: rgb(.07, .2, .36) });
+    }
+    download(new Blob([await pdf.save()], { type: "application/pdf" }), "Stiker_QR_APAR.pdf");
+  },
+  /* ---- Form cek ---- */
+  vCek(kode) {
+    const act = this.units.filter(u => u.aktif !== false);
+    const pre = kode ? this.units.find(u => u.id === unitId(kode)) : null;
+    if (!act.length) { $("apBody").innerHTML = '<div class="ap-card ap-empty">Belum ada data APAR. Tambahkan di tab <a href="#apar/units">Daftar APAR</a>.</div>'; return; }
+    this.form = { unit: pre ? pre.id : "", ans: {}, foto: null };
+    $("apBody").innerHTML = '<div class="ap-card ap-form" style="max-width:720px">' +
+      (kode && !pre ? '<div class="msg warn">APAR dengan kode <b>' + esc(kode) + "</b> tidak ditemukan. Pilih manual di bawah.</div>" : "") +
+      '<label class="f">Pilih APAR *</label><select id="fcUnit"><option value="">— pilih kode / lokasi —</option>' + act.map(u => '<option value="' + esc(u.id) + '"' + (pre && pre.id === u.id ? " selected" : "") + ">" + esc(u.kode + " — " + (u.lokasi || "")) + "</option>").join("") + "</select>" +
+      '<div id="fcInfo"></div>' +
+      '<div class="ap-grid2"><div><label class="f">Tanggal pemeriksaan</label><input type="date" id="fcTgl" value="' + todayISO() + '"></div><div><label class="f">Petugas</label><input type="text" id="fcPet" value="' + esc((CURRENT_USER && CURRENT_USER.name) || "") + '"></div></div>' +
+      '<h3 style="margin:18px 0 4px">Checklist</h3><div class="ap-row ap-note" style="margin-bottom:4px"><span>Tandai setiap item: <b>Ya</b> = sesuai, <b>Tidak</b> = bermasalah.</span><div class="sp"></div><button class="btn sm" id="fcAllY" type="button">Semua Ya</button></div>' +
+      this.items.map((it, i) => '<div class="chk-item"><div class="lb">' + (i + 1) + ". " + esc(it) + '</div><div class="yn"><button type="button" class="y" data-i="' + i + '" data-v="1">Ya</button><button type="button" class="n" data-i="' + i + '" data-v="0">Tidak</button></div></div>').join("") +
+      '<label class="f">Catatan / tindak lanjut</label><textarea id="fcCat" placeholder="Contoh: tekanan rendah, perlu isi ulang"></textarea>' +
+      '<label class="f">Foto (opsional)</label><input type="file" id="fcFoto" accept="image/*" capture="environment"><div id="fcFotoPrev"></div>' +
+      '<div id="fcMsg"></div><div class="ap-row" style="margin-top:16px"><div class="sp"></div><button class="btn pri" id="fcOk" style="padding:11px 20px">Simpan hasil pemeriksaan</button></div></div>';
+    const info = () => {
+      const u = this.units.find(x => x.id === $("fcUnit").value); this.form.unit = u ? u.id : "";
+      if (!u) { $("fcInfo").innerHTML = ""; return; }
+      const d = daysTo(u.kedaluwarsa), last = this.lastCheck(u.id), thisM = this.lastCheck(u.id, thisMonth());
+      $("fcInfo").innerHTML = '<div class="unit-box"><b>' + esc(u.kode) + "</b> · " + esc(u.lokasi || "") + (u.area ? " (" + esc(u.area) + ")" : "") + "<br>" + esc(u.jenis || "-") + (u.kapasitas ? " · " + esc(u.kapasitas) : "") + (u.merk ? " · " + esc(u.merk) : "") +
+        "<br>Isi ulang: " + fmtID(u.isiUlang) + " · Kedaluwarsa: " + fmtID(u.kedaluwarsa) + (d == null ? "" : d < 0 ? ' <span class="tag bad">sudah lewat</span>' : d <= 30 ? ' <span class="tag warn">' + d + " hari lagi</span>" : "") +
+        "<br>Cek terakhir: " + (last ? fmtID(last.tanggal) + " oleh " + esc(last.petugas || "-") + ' <span class="tag ' + (last.status === "Baik" ? "ok" : "bad") + '">' + esc(last.status) + "</span>" : "belum pernah") +
+        (thisM ? '<div class="ap-note" style="margin-top:4px">ℹ APAR ini sudah dicek bulan ini. Menyimpan lagi akan menambah catatan pemeriksaan baru.</div>' : "") + "</div>";
+    };
+    $("fcUnit").onchange = info; info();
+    const setAns = (i, v) => { this.form.ans[i] = v; $("apBody").querySelectorAll('.yn button[data-i="' + i + '"]').forEach(b => b.classList.toggle("on", b.dataset.v === String(v))); };
+    $("apBody").querySelectorAll(".yn button").forEach(b => b.onclick = () => setAns(+b.dataset.i, +b.dataset.v));
+    $("fcAllY").onclick = () => this.items.forEach((_, i) => setAns(i, 1));
+    $("fcFoto").onchange = async e => { const f = e.target.files[0]; if (!f) return; try { this.form.foto = await shrink(f, 720); $("fcFotoPrev").innerHTML = '<img class="ap-photo" src="' + this.form.foto + '">'; } catch (er) { msg("fcMsg", "err", "Foto tidak bisa dibaca (gunakan JPG/PNG)."); } };
+    $("fcOk").onclick = async () => {
+      const u = this.units.find(x => x.id === this.form.unit); if (!u) return msg("fcMsg", "err", "Pilih APAR yang diperiksa.");
+      const miss = this.items.map((_, i) => i).filter(i => this.form.ans[i] == null); if (miss.length) return msg("fcMsg", "err", "Item nomor " + miss.map(i => i + 1).join(", ") + " belum ditandai Ya/Tidak.");
+      const tgl = $("fcTgl").value || todayISO();
+      const hasil = this.items.map((it, i) => ({ item: it, ok: this.form.ans[i] === 1 })); const gagal = hasil.filter(h => !h.ok).map(h => h.item);
+      const data = { unitId: u.id, kode: u.kode, lokasi: u.lokasi || "", tanggal: tgl, periode: tgl.slice(0, 7), waktu: new Date().toISOString(), petugas: $("fcPet").value.trim() || (CURRENT_USER && CURRENT_USER.name) || "",
+        email: CURRENT_USER ? CURRENT_USER.email : "", hasil, gagal, status: gagal.length ? "Perlu Tindakan" : "Baik", catatan: $("fcCat").value.trim(), foto: this.form.foto || "" };
+      try { $("fcOk").disabled = true; $("fcOk").textContent = "Menyimpan…"; await Store().add("apar_checks", data); await this.loadAll(true);
+        $("apBody").innerHTML = '<div class="ap-card" style="max-width:720px;text-align:center;padding:30px"><div style="font-size:44px">' + (gagal.length ? "⚠️" : "✅") + '</div><h3 style="margin:8px 0">Pemeriksaan ' + esc(u.kode) + " tersimpan</h3>" +
+          '<p><span class="tag ' + (gagal.length ? "bad" : "ok") + '">' + data.status + "</span></p>" + (gagal.length ? '<p class="ap-note">Tidak sesuai: ' + esc(gagal.join("; ")) + "</p>" : "") +
+          '<div class="ap-row" style="justify-content:center;margin-top:16px"><a class="btn pri" href="#apar/cek">Cek APAR lain</a><a class="btn" href="#apar/dash">Ke dashboard</a></div></div>';
+        if (location.hash !== "#apar/cek") history.replaceState(null, "", "#apar/done");
+      } catch (e) { $("fcOk").disabled = false; $("fcOk").textContent = "Simpan hasil pemeriksaan"; msg("fcMsg", "err", esc(e.message)); }
+    };
+  },
+  /* ---- Rekap ---- */
+  vRekap() {
+    const list = this.checks.filter(c => c.periode === this.period);
+    $("apBody").innerHTML = '<div class="ap-card"><div class="ap-row"><b>Periode</b>' + this.periodPicker("apPer2") + '<div class="sp"></div><button class="btn" id="apXls">⬇ Excel</button><button class="btn pri" id="apPdf">⬇ Laporan PDF</button></div></div>' +
+      '<div class="ap-card" style="overflow:auto"><table class="ap resp"><thead><tr><th>Tanggal</th><th>Kode</th><th>Lokasi</th><th>Petugas</th><th>Status</th><th>Temuan / catatan</th><th></th></tr></thead><tbody>' +
+      (list.length ? list.map(c => "<tr><td>" + fmtID(c.tanggal) + "</td><td><b>" + esc(c.kode) + "</b></td><td>" + esc(c.lokasi) + "</td><td>" + esc(c.petugas || "") + '</td><td><span class="tag ' + (c.status === "Baik" ? "ok" : "bad") + '">' + esc(c.status) + "</span></td><td>" + ((c.gagal || []).length ? "Tidak sesuai: " + esc(c.gagal.join("; ")) : "-") + (c.catatan ? '<div class="ap-note">' + esc(c.catatan) + "</div>" : "") + "</td>" +
+        '<td style="white-space:nowrap;text-align:right">' + (c.foto ? '<button class="btn sm" data-foto="' + esc(c.id) + '">Foto</button> ' : "") + '<button class="btn sm" data-cdel="' + esc(c.id) + '" title="Hapus">✕</button></td></tr>').join("") : '<tr><td colspan="7" class="ap-empty">Belum ada pemeriksaan pada ' + monthLabel(this.period) + ".</td></tr>") + "</tbody></table></div>";
+    $("apPer2").onchange = e => { this.period = e.target.value || thisMonth(); this.vRekap(); };
+    $("apXls").onclick = () => this.exportXls();
+    $("apPdf").onclick = () => this.exportPdf();
+    $("apBody").querySelectorAll("[data-foto]").forEach(b => b.onclick = () => { const c = this.checks.find(x => x.id === b.dataset.foto); this.modal("<h4>Foto " + esc(c.kode) + " — " + fmtID(c.tanggal) + '</h4><img src="' + c.foto + '" style="max-width:100%;border-radius:8px"><div class="ap-row" style="margin-top:12px"><div class="sp"></div><button class="btn pri" id="apMX">Tutup</button></div>'); $("apMX").onclick = () => this.closeModal(); });
+    $("apBody").querySelectorAll("[data-cdel]").forEach(b => b.onclick = async () => { const c = this.checks.find(x => x.id === b.dataset.cdel); if (!confirm("Hapus pemeriksaan " + c.kode + " tanggal " + fmtID(c.tanggal) + "?")) return; try { await Store().del("apar_checks", c.id); await this.loadAll(true); this.vRekap(); } catch (e) { alert(e.message); } });
+  },
+  rekapRows() {
+    const act = this.units.filter(u => u.aktif !== false);
+    return act.map(u => { const c = this.lastCheck(u.id, this.period); return { u, c }; });
+  },
+  async exportXls() {
+    const rows = [["NO", "KODE", "LOKASI", "AREA", "JENIS", "KAPASITAS", "KEDALUWARSA", "TGL CEK", "PETUGAS", "STATUS"].concat(this.items.map((it, i) => "ITEM " + (i + 1) + ": " + it), ["CATATAN"])];
+    this.rekapRows().forEach(({ u, c }, i) => rows.push([i + 1, u.kode, u.lokasi || "", u.area || "", u.jenis || "", u.kapasitas || "", fmtID(u.kedaluwarsa), c ? fmtID(c.tanggal) : "", c ? c.petugas || "" : "", c ? c.status : "BELUM DICEK"]
+      .concat(this.items.map(it => { if (!c) return ""; const h = (c.hasil || []).find(x => x.item === it); return h ? (h.ok ? "Ya" : "Tidak") : "-"; }), [c ? c.catatan || "" : ""])));
+    download(await makeXlsx("Rekap APAR " + this.period, rows, [5, 12, 34, 16, 18, 10, 14, 13, 18, 15].concat(this.items.map(() => 14), [30])), "Rekap_APAR_" + this.period + ".xlsx");
+  },
+  async exportPdf() {
+    const { PDFDocument, StandardFonts, rgb } = PDFLib; const pdf = await PDFDocument.create();
+    const F = await pdf.embedFont(StandardFonts.Helvetica), FB = await pdf.embedFont(StandardFonts.HelveticaBold);
+    const PW = 842, PH = 595, M = 32; const clean = s => String(s == null ? "" : s).replace(/[^\x20-\x7E -ÿ]/g, "");
+    const fit = (t, f, s, w) => { t = clean(t); if (f.widthOfTextAtSize(t, s) <= w) return t; while (t && f.widthOfTextAtSize(t + "...", s) > w) t = t.slice(0, -1); return t + "..."; };
+    const rowsD = this.rekapRows(); const s = this.summary(this.period);
+    const cols = [["No", 24], ["Kode", 64], ["Lokasi", 170], ["Jenis / Kap.", 96], ["Kedaluwarsa", 66], ["Tgl Cek", 60], ["Petugas", 90], ["Status", 70], ["Temuan / Catatan", PW - 2 * M - 640]];
+    let page, y; const newPage = first => {
+      page = pdf.addPage([PW, PH]); y = PH - M;
+      if (first) {
+        page.drawText("LAPORAN PEMERIKSAAN APAR", { x: M, y: y - 14, size: 15, font: FB, color: rgb(.04, .15, .27) });
+        page.drawText(clean("Airport Operation & Services - " + (S.ap || "Bandar Udara")), { x: M, y: y - 30, size: 9.5, font: F });
+        page.drawText(clean("Periode: " + monthLabel(this.period) + "   |   Dicetak: " + fmtID(todayISO())), { x: M, y: y - 44, size: 9.5, font: F });
+        const k = [["Total APAR", s.total], ["Sudah dicek", s.checked], ["Belum dicek", s.unchecked], ["Perlu tindakan", s.bad], ["Kedaluwarsa", s.exp]];
+        k.forEach((x, i) => { const bx = M + i * 112; page.drawRectangle({ x: bx, y: y - 92, width: 104, height: 38, color: rgb(.95, .96, .98), borderColor: rgb(.85, .88, .92), borderWidth: .5 });
+          page.drawText(String(x[1]), { x: bx + 8, y: y - 76, size: 16, font: FB }); page.drawText(x[0], { x: bx + 8, y: y - 88, size: 7.5, font: F, color: rgb(.4, .4, .45) }); });
+        y -= 108;
+      }
+      let x = M; page.drawRectangle({ x: M, y: y - 16, width: PW - 2 * M, height: 18, color: rgb(1, .85, .4) });
+      cols.forEach(c => { page.drawText(c[0], { x: x + 3, y: y - 11, size: 8, font: FB }); x += c[1]; }); y -= 18;
+    };
+    newPage(true);
+    rowsD.forEach(({ u, c }, i) => {
+      if (y < M + 40) newPage(false);
+      const cells = [i + 1, u.kode, u.lokasi, [u.jenis, u.kapasitas].filter(Boolean).join(" / "), fmtID(u.kedaluwarsa), c ? fmtID(c.tanggal) : "-", c ? c.petugas : "-", c ? c.status : "Belum dicek", c ? [(c.gagal || []).length ? "Tidak sesuai: " + c.gagal.join("; ") : "", c.catatan].filter(Boolean).join(" | ") : ""];
+      if (i % 2) page.drawRectangle({ x: M, y: y - 15, width: PW - 2 * M, height: 15, color: rgb(.97, .975, .985) });
+      let x = M; cells.forEach((v, ci) => { const isSt = ci === 7; const col = isSt ? (v === "Baik" ? rgb(.04, .45, .23) : v === "Belum dicek" ? rgb(.45, .45, .5) : rgb(.78, .16, .16)) : rgb(0, 0, 0);
+        page.drawText(fit(v, isSt ? FB : F, 8, cols[ci][1] - 6), { x: x + 3, y: y - 10.5, size: 8, font: isSt ? FB : F, color: col }); x += cols[ci][1]; });
+      y -= 15;
+    });
+    if (y < M + 90) newPage(false);
+    y -= 30; page.drawText("Item checklist:", { x: M, y, size: 8, font: FB }); this.items.forEach((it, i) => { if (i < 10) page.drawText(fit((i + 1) + ". " + it, F, 7.5, 360), { x: M, y: y - 11 - i * 9.5, size: 7.5, font: F }); });
+    page.drawText("Mengetahui,", { x: PW - M - 180, y, size: 9, font: F }); page.drawText("(.................................)", { x: PW - M - 180, y: y - 60, size: 9, font: F });
+    download(new Blob([await pdf.save()], { type: "application/pdf" }), "Laporan_APAR_" + this.period + ".pdf");
+  },
+  /* ---- Pengaturan item ---- */
+  vCfg() {
+    const draw = items => {
+      $("apBody").innerHTML = '<div class="ap-card ap-form" style="max-width:720px"><h3>Item checklist pemeriksaan APAR</h3><p class="ap-note">Item ini dipakai semua petugas. Perubahan hanya berlaku untuk pemeriksaan berikutnya — riwayat lama tidak berubah.</p><div id="cfgList">' +
+        items.map((it, i) => '<div class="cfg-item"><span class="ap-note" style="width:22px">' + (i + 1) + '.</span><input type="text" class="ap-in" data-ci="' + i + '" value="' + esc(it) + '"><button class="btn sm" data-up="' + i + '" title="Naik">↑</button><button class="btn sm" data-dn="' + i + '" title="Turun">↓</button><button class="btn sm" data-rm="' + i + '" title="Hapus">✕</button></div>').join("") +
+        '</div><div class="ap-row" style="margin-top:10px"><button class="btn" id="cfgAdd">＋ Tambah item</button><button class="btn" id="cfgDef">↺ Kembalikan standar</button><div class="sp"></div><button class="btn pri" id="cfgSave">Simpan</button></div><div id="cfgMsg"></div></div>';
+      const cur = () => [...$("apBody").querySelectorAll("[data-ci]")].map(x => x.value.trim());
+      $("cfgAdd").onclick = () => draw(cur().concat([""]));
+      $("cfgDef").onclick = () => draw(DEFAULT_ITEMS.slice());
+      $("apBody").querySelectorAll("[data-rm]").forEach(b => b.onclick = () => { const a = cur(); a.splice(+b.dataset.rm, 1); draw(a); });
+      $("apBody").querySelectorAll("[data-up]").forEach(b => b.onclick = () => { const a = cur(), i = +b.dataset.up; if (i > 0) [a[i - 1], a[i]] = [a[i], a[i - 1]]; draw(a); });
+      $("apBody").querySelectorAll("[data-dn]").forEach(b => b.onclick = () => { const a = cur(), i = +b.dataset.dn; if (i < a.length - 1) [a[i + 1], a[i]] = [a[i], a[i + 1]]; draw(a); });
+      $("cfgSave").onclick = async () => { const a = cur().filter(Boolean); if (!a.length) return msg("cfgMsg", "err", "Minimal satu item."); try { await Store().put("apar_config", "checklist", { items: a, diubah: new Date().toISOString(), diubahOleh: CURRENT_USER ? CURRENT_USER.email : "" }); this.items = a; draw(a); msg("cfgMsg", "ok", "Item checklist tersimpan."); } catch (e) { msg("cfgMsg", "err", esc(e.message)); } };
+    };
+    draw(this.items.slice());
+  }
+};
+document.addEventListener("click", e => { if (e.target && e.target.id === "apModal") Apar.closeModal(); });
+
 /* ===================== AUTH ===================== */
 const Auth = (function () {
   const online = !!(FIREBASE_CONFIG.apiKey && FIREBASE_CONFIG.projectId);
@@ -1280,6 +1734,7 @@ const Auth = (function () {
       if (online) {
         await loadScript("https://www.gstatic.com/firebasejs/" + FB_V + "/firebase-app-compat.js");
         await loadScript("https://www.gstatic.com/firebasejs/" + FB_V + "/firebase-auth-compat.js");
+        await loadScript("https://www.gstatic.com/firebasejs/" + FB_V + "/firebase-firestore-compat.js");
         firebase.initializeApp(FIREBASE_CONFIG); fb = firebase.auth(); fb.languageCode = "id";
         fb.onAuthStateChanged(u => {
           if (u && WAJIB_VERIFIKASI_EMAIL && !u.emailVerified) { listener(null); return; }
@@ -1361,7 +1816,8 @@ $("modeNote").innerHTML = Auth.online ? "🔒 Akun online — bisa masuk dari pe
   "<b>Mode lokal:</b> akun tersimpan di browser komputer ini saja. Untuk akun online (bisa dari HP/PC mana pun), isi <code>FIREBASE_CONFIG</code> di file ini.";
 function onUser(u) {
   document.body.classList.toggle("locked", !u);
-  if (u) { $("uName").textContent = u.name; $("uAv").textContent = (u.name || "?").trim()[0].toUpperCase(); $("uName").title = u.email; renderAll(); }
+  CURRENT_USER = u || null;
+  if (u) { $("uName").textContent = u.name; $("uAv").textContent = (u.name || "?").trim()[0].toUpperCase(); $("uName").title = u.email; Apar.loaded = false; route(); }
   else { $("lPass").value = ""; setAuthMode("login"); }
 }
 function showVerify(p, d) {
