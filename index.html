@@ -274,7 +274,7 @@ a.btn{text-decoration:none}
   <div><h1 id="hdTitle">Generator Pas Bandara</h1><small id="hdSub">Upload Excel → mockup pas + QR/barcode → cetak / PDF / PNG</small></div>
   <a class="navhome" id="navHome" href="#home">🏠 Beranda</a>
   <div class="sp"></div>
-  <div class="count" title="Versi aplikasi">v4.1 · 16 Okt 2026</div>
+  <div class="count" title="Versi aplikasi">v4.2 · 16 Okt 2026</div>
   <div class="count" id="countBadge">0 pas</div>
   <div class="user"><div class="av" id="uAv">?</div><span id="uName"></span><button id="btnLogout">Keluar</button></div>
 </header>
@@ -1334,13 +1334,17 @@ const LocalStore = {
   async add(c, data) { const id = Date.now().toString(36) + Math.random().toString(36).slice(2, 7); return this.put(c, id, data); },
   async del(c, id) { const o = this._get(c); delete o[id]; this._set(c, o); }
 };
+const withTimeout = (p, ms) => Promise.race([p, new Promise((_, rej) => setTimeout(() => rej(Object.assign(new Error("timeout"), { code: "timeout" })), ms))]);
 const FireStore = {
   db() { return firebase.firestore(); },
-  _err(e) { if (e && e.code === "permission-denied") return new Error("Akses database ditolak. Pastikan Firestore sudah aktif dan Rules mengizinkan pengguna login (lihat panduan)."); if (e && e.code === "unavailable") return new Error("Tidak bisa terhubung ke database. Periksa koneksi internet."); return e; },
-  async list(c, where) { try { let q = this.db().collection(c); if (where) q = q.where(where[0], "==", where[1]); const s = await q.get(); return s.docs.map(d => Object.assign({ id: d.id }, d.data())); } catch (e) { throw this._err(e); } },
-  async get(c, id) { try { const d = await this.db().collection(c).doc(id).get(); return d.exists ? Object.assign({ id: d.id }, d.data()) : null; } catch (e) { throw this._err(e); } },
-  async put(c, id, data) { try { await this.db().collection(c).doc(id).set(data, { merge: true }); return id; } catch (e) { throw this._err(e); } },
-  async add(c, data) { try { const r = await this.db().collection(c).add(data); return r.id; } catch (e) { throw this._err(e); } },
+  _err(e) {
+    const m = String((e && e.message) || "");
+    if (e && (e.code === "timeout" || e.code === "not-found" || /does not exist|offline|backend/i.test(m)))
+      return Object.assign(new Error("Database Firestore belum bisa dihubungi. Kemungkinan besar Firestore belum dibuat (Create database) atau koneksi internet bermasalah."), { setup: true }); if (e && e.code === "permission-denied") return new Error("Akses database ditolak. Pastikan Firestore sudah aktif dan Rules mengizinkan pengguna login (lihat panduan)."); if (e && e.code === "unavailable") return new Error("Tidak bisa terhubung ke database. Periksa koneksi internet."); return e; },
+  async list(c, where) { try { let q = this.db().collection(c); if (where) q = q.where(where[0], "==", where[1]); const s = await withTimeout(q.get(), 15000); return s.docs.map(d => Object.assign({ id: d.id }, d.data())); } catch (e) { throw this._err(e); } },
+  async get(c, id) { try { const d = await withTimeout(this.db().collection(c).doc(id).get(), 15000); return d.exists ? Object.assign({ id: d.id }, d.data()) : null; } catch (e) { throw this._err(e); } },
+  async put(c, id, data) { try { await withTimeout(this.db().collection(c).doc(id).set(data, { merge: true }), 20000); return id; } catch (e) { throw this._err(e); } },
+  async add(c, data) { try { const r = await withTimeout(this.db().collection(c).add(data), 20000); return r.id; } catch (e) { throw this._err(e); } },
   async del(c, id) { try { await this.db().collection(c).doc(id).delete(); } catch (e) { throw this._err(e); } }
 };
 const Store = () => (Auth.online && typeof firebase !== "undefined" && firebase.firestore) ? FireStore : LocalStore;
@@ -1485,8 +1489,18 @@ const Apar = {
     const T = [["dash", "📊 Dashboard"], ["units", "🧯 Daftar APAR"], ["cek", "✅ Cek APAR"], ["rekap", "📄 Rekap"], ["cfg", "⚙ Item Checklist"]];
     v.innerHTML = '<nav class="ap-tabs">' + T.map(t => '<a href="#apar/' + t[0] + '" class="' + (t[0] === tab ? "on" : "") + '">' + t[1] + "</a>").join("") + '</nav><div id="apBody"><div class="ap-empty">Memuat data…</div></div>' +
       '<div class="ap-modal" id="apModal"><div class="bx" id="apModalBx"></div></div>' + (Auth.online ? "" : '<p class="ap-note" style="margin-top:14px">💻 Mode lokal: data APAR tersimpan di browser ini saja.</p>');
-    try { await this.loadAll(); } catch (e) { $("apBody").innerHTML = '<div class="msg err">' + esc(e.message) + "</div>"; return; }
+    try { await this.loadAll(); } catch (e) { this.showDbError(e, tab, arg); return; }
     ({ dash: () => this.vDash(), units: () => this.vUnits(), cek: () => this.vCek(arg), rekap: () => this.vRekap(), cfg: () => this.vCfg() }[tab] || (() => this.vDash()))();
+  },
+  showDbError(e, tab, arg) {
+    const perm = /ditolak/i.test(e.message);
+    $("apBody").innerHTML = '<div class="ap-card" style="max-width:760px"><h3>⚠ ' + esc(e.message) + "</h3>" +
+      '<p class="ap-note">Modul APAR menyimpan data di <b>Cloud Firestore</b> (gratis) pada project Firebase Anda. Pastikan dua hal ini sudah dilakukan di <b>console.firebase.google.com</b> → project <b>GENERATOR PAS BANDARA HSN</b>:</p>' +
+      '<ol class="ap-note" style="line-height:1.8">' + (perm ? "" : '<li><b>Buat database:</b> menu kiri <b>Databases &amp; Storage → Firestore</b> → <b>Create database</b> → lokasi <b>asia-southeast2 (Jakarta)</b> → <b>Production mode</b> → Create.</li>') +
+      '<li><b>Atur Rules:</b> tab <b>Rules</b> → ganti seluruh isi dengan kode di bawah → <b>Publish</b>.</li></ol>' +
+      '<pre style="background:#f3f6fa;border:1px solid var(--line);border-radius:8px;padding:10px;font-size:12px;overflow:auto">rules_version = \'2\';\nservice cloud.firestore {\n  match /databases/{database}/documents {\n    match /{document=**} {\n      allow read, write: if request.auth != null;\n    }\n  }\n}</pre>' +
+      '<div class="ap-row" style="margin-top:12px"><button class="btn pri" id="apRetry">↻ Coba lagi</button><span class="ap-note">Setelah membuat database, tunggu ±1 menit lalu klik Coba lagi.</span></div></div>';
+    $("apRetry").onclick = () => { this.loaded = false; this.open(tab, arg); };
   },
   periodPicker(id) { return '<input type="month" id="' + id + '" value="' + this.period + '" style="max-width:190px">'; },
   /* ---- Dashboard ---- */
