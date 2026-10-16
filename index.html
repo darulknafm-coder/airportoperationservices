@@ -84,6 +84,19 @@ table.data td.no{color:var(--muted);text-align:center;width:36px}
 #modal h4{margin:0 0 10px;font-size:17px}
 #modal pre{background:#f3f6fa;border:1px solid var(--line);border-radius:8px;padding:12px;white-space:pre-wrap;word-break:break-word;font:13px/1.55 Consolas,monospace;margin:0 0 10px}
 #modal .ft{display:flex;justify-content:flex-end;margin-top:12px}
+#cropper{position:fixed;inset:0;background:rgba(11,37,69,.7);display:none;place-items:center;z-index:70;padding:12px}
+#cropper .cbx{background:#fff;border-radius:14px;padding:16px;width:100%;max-width:380px}
+#cropper .chd{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:10px}
+#cropper .chd span{font-size:12px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#cropper .cstage{position:relative;width:100%;aspect-ratio:3/4;background:#222;border-radius:8px;overflow:hidden;touch-action:none;cursor:grab}
+#cropper .cstage:active{cursor:grabbing}
+#cropper canvas{width:100%;height:100%;display:block}
+#cropper .cframe{position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 0 2px rgba(255,255,255,.9);
+  background-image:linear-gradient(rgba(255,255,255,.35) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.35) 1px,transparent 1px);background-size:33.333% 33.333%}
+#cropper .cctl{display:flex;align-items:center;gap:8px;margin-top:12px;font-size:12px;color:var(--muted)}
+#cropper .cctl label{flex:1;display:flex;align-items:center;gap:8px}
+#cropper .cctl input{flex:1}
+#cropper .cft{display:flex;justify-content:flex-end;gap:8px;margin-top:14px}
 #busy{position:fixed;inset:0;background:rgba(11,37,69,.55);display:none;place-items:center;z-index:50}
 #busy .bx{background:#fff;padding:22px 28px;border-radius:12px;min-width:300px;text-align:center}
 #busy .bar{height:8px;background:#e5e9f0;border-radius:4px;overflow:hidden;margin-top:12px}
@@ -190,7 +203,7 @@ header.top .user button{background:rgba(255,255,255,.12);color:#fff;border:1px s
   <img class="brandlogo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMDAgOTAiPjxkZWZzPjxsaW5lYXJHcmFkaWVudCBpZD0iZyIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iI0YyQjcwNSIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iI0U4NTkwQyIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHg9IjYiIHk9IjkiIHdpZHRoPSI3MiIgaGVpZ2h0PSI3MiIgcng9IjE4IiBmaWxsPSJ1cmwoI2cpIi8+PHRleHQgeD0iNDIiIHk9IjY2IiBmb250LWZhbWlseT0iQXJpYWwsIEhlbHZldGljYSwgc2Fucy1zZXJpZiIgZm9udC13ZWlnaHQ9IjgwMCIgZm9udC1zaXplPSI1MCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iI2ZmZiI+TDwvdGV4dD48dGV4dCB4PSI5NCIgeT0iNjIiIGZvbnQtZmFtaWx5PSJBcmlhbCwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmIiBmb250LXdlaWdodD0iODAwIiBmb250LXNpemU9IjQ2IiBmaWxsPSIjMGIyNTQ1Ij5MYXJpJ3NlPC90ZXh0Pjwvc3ZnPgo=" alt="Lari'se">
   <div><h1>Generator Pas Bandara</h1><small>Upload Excel → mockup pas + QR/barcode → cetak / PDF / PNG</small></div>
   <div class="sp"></div>
-  <div class="count" title="Versi aplikasi">v3.2 · 15 Okt 2026</div>
+  <div class="count" title="Versi aplikasi">v3.3 · 16 Okt 2026</div>
   <div class="count" id="countBadge">0 pas</div>
   <div class="user"><div class="av" id="uAv">?</div><span id="uName"></span><button id="btnLogout">Keluar</button></div>
 </header>
@@ -285,6 +298,17 @@ header.top .user button{background:rgba(255,255,255,.12);color:#fff;border:1px s
 </div>
 
 <div id="busy"><div class="bx"><b id="busyT">Memproses…</b><div class="bar"><i id="busyBar"></i></div><div class="hint" id="busyS"></div></div></div>
+<div id="cropper"><div class="cbx">
+  <div class="chd"><b>Potong foto</b><span id="cropName"></span></div>
+  <div class="cstage"><canvas id="cropCv" width="600" height="800"></canvas><div class="cframe"></div></div>
+  <div class="cctl">
+    <label>Zoom <input type="range" id="cropZoom" min="100" max="400" value="100"></label>
+    <button class="btn sm" id="cropRot" title="Putar 90°">⟳ Putar</button>
+    <button class="btn sm" id="cropReset">Reset</button>
+  </div>
+  <div class="hint" style="text-align:center;margin:4px 0 0">Geser foto dengan mouse/jari · scroll atau slider untuk zoom</div>
+  <div class="cft"><button class="btn" id="cropCancel">Batal</button><button class="btn pri" id="cropOk">✓ Simpan potongan</button></div>
+</div></div>
 <div id="modal"><div class="bx"><h4 id="mTitle"></h4><div id="mBody"></div><div class="ft"><button class="btn pri" id="mClose">Mengerti</button></div></div></div>
 <div id="printArea"></div>
 <input type="file" id="filePhotoOne" accept="image/*" hidden>
@@ -813,7 +837,7 @@ function renderCards() {
   v.innerHTML = '<div class="grid">' + list.map(([r, i]) =>
     '<div class="card">' + cardSVG(r) + '<div class="meta"><span class="nm" title="' + esc(r.nama) + '">' + esc(r.nama || "(tanpa nama)") + "</span>" +
     (r._photo ? '<span class="badge ok">foto ✓</span>' : '<span class="badge">tanpa foto</span>') +
-    '<span class="acts"><button class="btn sm" data-ph="' + i + '" title="Ganti foto">📷</button><button class="btn sm" data-qr="' + i + '" title="Lihat isi QR saat di-scan">QR</button><button class="btn sm" data-png="' + i + '" title="Unduh PNG">⬇</button></span></div></div>').join("") + "</div>" +
+    '<span class="acts"><button class="btn sm" data-ph="' + i + '" title="Ganti foto">📷</button>' + (r._photo ? '<button class="btn sm" data-crop="' + i + '" title="Potong / atur foto">✂</button>' : '') + '<button class="btn sm" data-qr="' + i + '" title="Lihat isi QR saat di-scan">QR</button><button class="btn sm" data-png="' + i + '" title="Unduh PNG">⬇</button></span></div></div>').join("") + "</div>" +
     (list.length ? "" : '<div class="empty">Tidak ada yang cocok dengan pencarian.</div>');
 }
 function renderData() {
@@ -822,12 +846,63 @@ function renderData() {
   const cols = [["nama", "Nama"], ["jabatan", "Jabatan"], ["instansi", "Instansi"], ["id", "ID Barcode"], ["area", "Area"], ["berlaku", "Masa Berlaku"], ["warna", "Warna"]];
   v.innerHTML = '<div class="tblwrap"><table class="data"><thead><tr><th>#</th><th>Foto</th>' + cols.map(c => "<th>" + c[1] + "</th>").join("") + "<th></th></tr></thead><tbody>" +
     visibleRows().map(([r, i]) => '<tr><td class="no">' + (i + 1) + "</td><td>" +
-      (r._photo ? '<img class="thumb" src="' + r._photo + '" data-ph="' + i + '" title="Ganti foto">' : '<div class="thumb" data-ph="' + i + '" title="Pilih foto" style="display:grid;place-items:center;font-size:14px">📷</div>') + "</td>" +
+      (r._photo ? '<div style="display:flex;gap:4px;align-items:center"><img class="thumb" src="' + r._photo + '" data-ph="' + i + '" title="Ganti foto"><button class="btn sm" data-crop="' + i + '" title="Potong foto">✂</button></div>' : '<div class="thumb" data-ph="' + i + '" title="Pilih foto" style="display:grid;place-items:center;font-size:14px">📷</div>') + "</td>" +
       cols.map(c => '<td><input data-i="' + i + '" data-f="' + c[0] + '" value="' + esc(r[c[0]]) + '"></td>').join("") +
       '<td><button class="btn sm" data-del="' + i + '" title="Hapus">✕</button></td></tr>').join("") + "</tbody></table></div>";
 }
 
 /* ---------- export ---------- */
+/* ---------- Crop foto (rasio 3:4 sesuai kotak foto kartu) ---------- */
+const Crop = { i: -1, img: null, rot: 0, z: 1, ox: 0, oy: 0, base: 1 };
+const cropCv = $("cropCv"), cropX = cropCv.getContext("2d");
+function cropDims() { const r90 = Crop.rot % 180 !== 0; return { w: r90 ? Crop.img.height : Crop.img.width, h: r90 ? Crop.img.width : Crop.img.height }; }
+function cropClamp() {
+  const { w, h } = cropDims(), s = Crop.base * Crop.z, W = cropCv.width, H = cropCv.height;
+  const mx = Math.max(0, (w * s - W) / 2), my = Math.max(0, (h * s - H) / 2);
+  Crop.ox = Math.min(mx, Math.max(-mx, Crop.ox)); Crop.oy = Math.min(my, Math.max(-my, Crop.oy));
+}
+function cropDraw(ctx, W, H, k) {
+  k = k || 1; const s = Crop.base * Crop.z * k;
+  ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, W, H); ctx.save();
+  ctx.translate(W / 2 + Crop.ox * k, H / 2 + Crop.oy * k); ctx.rotate(Crop.rot * Math.PI / 180); ctx.scale(s, s);
+  ctx.drawImage(Crop.img, -Crop.img.width / 2, -Crop.img.height / 2); ctx.restore();
+}
+function cropRender() { cropClamp(); cropDraw(cropX, cropCv.width, cropCv.height); }
+function cropFit() { const { w, h } = cropDims(); Crop.base = Math.max(cropCv.width / w, cropCv.height / h); Crop.z = 1; Crop.ox = Crop.oy = 0; $("cropZoom").value = 100; }
+async function openCrop(i) {
+  const r = rows[i]; if (!r || !(r._orig || r._photo)) return;
+  Crop.i = i; Crop.img = await loadImg(r._orig || r._photo);
+  if (r._crop && r._orig) { Object.assign(Crop, r._crop); const { w, h } = cropDims(); Crop.base = Math.max(cropCv.width / w, cropCv.height / h); $("cropZoom").value = Math.round(Crop.z * 100); }
+  else { Crop.rot = 0; cropFit(); }
+  $("cropName").textContent = r.nama || ""; $("cropper").style.display = "grid"; cropRender();
+}
+(function () {
+  const st = cropCv.parentElement; const pts = new Map(); let pinch0 = 0, z0 = 1;
+  const toCanvas = dx => dx * cropCv.width / st.clientWidth;
+  st.addEventListener("pointerdown", e => { st.setPointerCapture(e.pointerId); pts.set(e.pointerId, [e.clientX, e.clientY]);
+    if (pts.size === 2) { const [a, b] = [...pts.values()]; pinch0 = Math.hypot(a[0] - b[0], a[1] - b[1]); z0 = Crop.z; } });
+  st.addEventListener("pointermove", e => { if (!pts.has(e.pointerId)) return; const p = pts.get(e.pointerId);
+    if (pts.size === 1) { Crop.ox += toCanvas(e.clientX - p[0]); Crop.oy += toCanvas(e.clientY - p[1]); }
+    pts.set(e.pointerId, [e.clientX, e.clientY]);
+    if (pts.size === 2 && pinch0) { const [a, b] = [...pts.values()]; Crop.z = Math.min(4, Math.max(1, z0 * Math.hypot(a[0] - b[0], a[1] - b[1]) / pinch0)); $("cropZoom").value = Math.round(Crop.z * 100); }
+    cropRender(); });
+  const up = e => { pts.delete(e.pointerId); if (pts.size < 2) pinch0 = 0; };
+  st.addEventListener("pointerup", up); st.addEventListener("pointercancel", up);
+  st.addEventListener("wheel", e => { e.preventDefault(); Crop.z = Math.min(4, Math.max(1, Crop.z * (e.deltaY < 0 ? 1.08 : 1 / 1.08))); $("cropZoom").value = Math.round(Crop.z * 100); cropRender(); }, { passive: false });
+})();
+$("cropZoom").oninput = e => { Crop.z = e.target.value / 100; cropRender(); };
+$("cropRot").onclick = () => { Crop.rot = (Crop.rot + 90) % 360; const z = Crop.z; cropFit(); Crop.z = z; $("cropZoom").value = Math.round(z * 100); cropRender(); };
+$("cropReset").onclick = () => { Crop.rot = 0; cropFit(); cropRender(); };
+$("cropCancel").onclick = () => { $("cropper").style.display = "none"; };
+$("cropOk").onclick = () => {
+  const r = rows[Crop.i]; if (!r) return;
+  const out = document.createElement("canvas"); out.width = 600; out.height = 800;
+  cropDraw(out.getContext("2d"), 600, 800, 600 / cropCv.width);
+  if (!r._orig) r._orig = r._photo;
+  r._crop = { rot: Crop.rot, z: Crop.z, ox: Crop.ox, oy: Crop.oy };
+  r._photo = out.toDataURL("image/jpeg", 0.92); r._manual = true;
+  $("cropper").style.display = "none"; renderAll();
+};
 function showModal(t, html) { $("mTitle").textContent = t; $("mBody").innerHTML = html; $("modal").style.display = "grid"; }
 $("mClose").onclick = () => { $("modal").style.display = "none"; };
 function busy(on, t, p, sub) { $("busy").style.display = on ? "grid" : "none"; if (t) $("busyT").textContent = t; $("busyBar").style.width = ((p || 0) * 100) + "%"; $("busyS").textContent = sub || ""; }
@@ -1146,6 +1221,7 @@ document.querySelectorAll(".tabs button").forEach(b => b.onclick = () => switchT
 let photoTarget = -1;
 document.addEventListener("click", e => {
   const ph = e.target.closest("[data-ph]"); if (ph) { photoTarget = +ph.dataset.ph; $("filePhotoOne").click(); return; }
+  const cb = e.target.closest("[data-crop]"); if (cb) { openCrop(+cb.dataset.crop); return; }
   const qb = e.target.closest("[data-qr]"); if (qb) { const r = rows[+qb.dataset.qr]; const pl = S.bc === "qr" ? qrPayload(r) : c128Payload(r);
     showModal("Isi " + (S.bc === "qr" ? "QR Code" : "barcode") + " saat di-scan", "<pre>" + esc(pl || "(kosong)") + "</pre>" + (/^https?:/.test(pl) ? '<p style="margin:0 0 8px"><a class="btn sm" href="' + esc(pl) + '" target="_blank" rel="noopener">Buka halaman Cek Pas ↗</a></p>' : "") + "<div class=\"hint\">" + (S.bc === "qr" ? "Ubah di menu <b>3. Tampilan Kartu → Isi saat di-scan</b>." : "Barcode garis hanya bisa memuat No. Pas. Pilih <b>QR Code</b> agar nama, jabatan &amp; instansi ikut tampil.") + "</div>"); return; }
   const pn = e.target.closest("[data-png]"); if (pn) { exportOnePng(+pn.dataset.png); return; }
@@ -1154,7 +1230,7 @@ document.addEventListener("click", e => {
 });
 $("filePhotoOne").onchange = async e => {
   const f = e.target.files[0]; e.target.value = ""; if (!f || photoTarget < 0) return;
-  rows[photoTarget]._photo = await shrink(f, 900); rows[photoTarget]._manual = true; renderAll();
+  const src = await shrink(f, 1400); const r = rows[photoTarget]; r._orig = src; r._photo = src; r._manual = true; renderAll(); openCrop(photoTarget);
 };
 let logoTarget = null;
 $("fileLogo").onchange = async e => {
@@ -1238,7 +1314,7 @@ const Auth = (function () {
         return;
       }
       const u = lsGet(LK, {})[email];
-      if (!u) throw new Error("Akun tidak ditemukan. Silakan daftar dulu.");
+      if (!u) throw new Error("Akun tidak ditemukan di browser ini. Mode lokal: akun hanya tersimpan di browser & perangkat tempat Anda mendaftar. Silakan daftar lagi di sini, atau aktifkan login online (Firebase) agar satu akun bisa dipakai di semua perangkat.");
       if (await hash(pw, u.salt) !== u.hash) throw new Error("Email atau password salah.");
       api._session(email, remember); listener({ name: u.name, email });
     },
