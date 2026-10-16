@@ -230,11 +230,28 @@ table.ap td{padding:8px;border-bottom:1px solid #eef1f5;vertical-align:top}
 a.btn{text-decoration:none}
 @media (max-width:700px){header.top{gap:8px;padding:8px 12px}header.top small,header.top .count,header.top .user span{display:none}header.top h1{font-size:15px}header.top .brandlogo{height:28px}header.top .navhome{padding:6px 9px;font-size:12px}#aparView{padding:12px 12px 50px}.ap-tabs a{padding:7px 9px;font-size:12.5px}}
 .chk-tbl td{vertical-align:middle}.chk-tbl .yn button{min-width:84px}@media (max-width:640px){.chk-tbl .yn button{min-width:0;padding:8px 8px;font-size:12.5px}}
+#publicView{display:none;min-height:100vh;background:linear-gradient(160deg,#0b2545,#1d4e89);padding:20px 14px;align-items:flex-start;justify-content:center}
+body.publicview #auth,body.publicview header.top,body.publicview .view{display:none!important}
+.pv-card{background:#fff;border-radius:16px;max-width:460px;width:100%;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,.3);margin-top:10px}
+.pv-hd{background:#c62828;color:#fff;padding:14px 18px;display:flex;gap:12px;align-items:center}.pv-hd img{height:38px;background:#fff;border-radius:8px;padding:3px}
+.pv-hd b{display:block;font-size:16px}.pv-hd small{opacity:.85;font-size:12px}
+.pv-bd{padding:18px}
+.pv-kode{font-size:30px;font-weight:800;color:var(--navy);line-height:1.1}
+.pv-lok{font-size:15px;font-weight:600;margin-top:4px}
+.pv-status{margin:14px 0 10px;border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:2px}
+.pv-status span{font-size:20px;font-weight:800}.pv-status small{font-size:12.5px;opacity:.85}
+.pv-status.ok{background:#e6f4ea;color:#0b6b3a}.pv-status.bad{background:#fdecea;color:#c62828}.pv-status.mute{background:#eef1f5;color:#475467}
+.pv-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px}
+.pv-meta div{background:#f7f9fc;border-radius:8px;padding:8px}.pv-meta span{display:block;font-size:11px;color:var(--muted);text-transform:uppercase;font-weight:700}.pv-meta b{font-size:13.5px}
+.pv-tbl td{font-size:14px;font-weight:600}
+.pv-hist{display:flex;justify-content:space-between;gap:8px;font-size:12.5px;padding:6px 0;border-bottom:1px solid #eef1f5}
+.pv-ft{margin-top:18px;border-top:1px solid #eef1f5;padding-top:14px;text-align:center}.pv-ft .btn{width:100%;padding:11px}
 </style>
 <style id="pageStyle"></style>
 </head>
 <body class="locked">
 <div id="verify" style="display:none"></div>
+<div id="publicView"></div>
 <div id="auth">
   <div class="brand">
     <div class="lg"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMDAgOTAiPjxkZWZzPjxsaW5lYXJHcmFkaWVudCBpZD0iZyIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iI0YyQjcwNSIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iI0U4NTkwQyIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHg9IjYiIHk9IjkiIHdpZHRoPSI3MiIgaGVpZ2h0PSI3MiIgcng9IjE4IiBmaWxsPSJ1cmwoI2cpIi8+PHRleHQgeD0iNDIiIHk9IjY2IiBmb250LWZhbWlseT0iQXJpYWwsIEhlbHZldGljYSwgc2Fucy1zZXJpZiIgZm9udC13ZWlnaHQ9IjgwMCIgZm9udC1zaXplPSI1MCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iI2ZmZiI+TDwvdGV4dD48dGV4dCB4PSI5NCIgeT0iNjIiIGZvbnQtZmFtaWx5PSJBcmlhbCwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmIiBmb250LXdlaWdodD0iODAwIiBmb250LXNpemU9IjQ2IiBmaWxsPSIjMGIyNTQ1Ij5MYXJpJ3NlPC90ZXh0Pjwvc3ZnPgo=" alt="Lari'se"></div>
@@ -274,7 +291,7 @@ a.btn{text-decoration:none}
   <div><h1 id="hdTitle">Generator Pas Bandara</h1><small id="hdSub">Upload Excel → mockup pas + QR/barcode → cetak / PDF / PNG</small></div>
   <a class="navhome" id="navHome" href="#home">🏠 Beranda</a>
   <div class="sp"></div>
-  <div class="count" title="Versi aplikasi">v4.2 · 16 Okt 2026</div>
+  <div class="count" title="Versi aplikasi">v4.3 · 16 Okt 2026</div>
   <div class="count" id="countBadge">0 pas</div>
   <div class="user"><div class="av" id="uAv">?</div><span id="uName"></span><button id="btnLogout">Keluar</button></div>
 </header>
@@ -1474,6 +1491,18 @@ const Apar = {
     this.checks = c.sort((a, b) => String(b.waktu || "").localeCompare(String(a.waktu || "")));
     if (cfg && Array.isArray(cfg.items) && cfg.items.length) this.items = cfg.items;
     this.loaded = true;
+    if (!this._pubChecked && this.units.length) { this._pubChecked = true; st.get("apar_config", "public").then(p => { if (!p || p.v !== 1) this.publish().then(() => st.put("apar_config", "public", { v: 1, waktu: new Date().toISOString() })); }).catch(() => {}); }
+  },
+  /* data ringkas untuk halaman publik (dibaca tanpa login) */
+  publicDoc(u) {
+    const cs = this.checks.filter(c => c.unitId === u.id); const c = cs[0];
+    return { kode: u.kode, lokasi: u.lokasi || "", area: u.area || "", jenis: u.jenis || "", kapasitas: u.kapasitas || "", merk: u.merk || "", kedaluwarsa: u.kedaluwarsa || "", aktif: u.aktif !== false,
+      last: c ? { tanggal: c.tanggal, periode: c.periode, regu: c.regu || "", petugas: c.petugas || "", status: c.status, catatan: c.catatan || "", hasil: (c.hasil || []).map(x => ({ item: x.item, ok: !!x.ok, nilai: x.nilai || "" })) } : null,
+      riwayat: cs.slice(0, 6).map(x => ({ tanggal: x.tanggal, regu: x.regu || "", petugas: x.petugas || "", status: x.status })), diperbarui: new Date().toISOString() };
+  },
+  async publish(ids) {
+    const st = Store(); const list = ids ? this.units.filter(u => ids.includes(u.id)) : this.units;
+    try { for (const u of list) await st.put("apar_public", u.id, this.publicDoc(u)); } catch (e) { console.warn("publish", e); }
   },
   lastCheck(uid, period) { return this.checks.find(c => c.unitId === uid && (!period || c.periode === period)); },
   summary(period) {
@@ -1498,7 +1527,7 @@ const Apar = {
       '<p class="ap-note">Modul APAR menyimpan data di <b>Cloud Firestore</b> (gratis) pada project Firebase Anda. Pastikan dua hal ini sudah dilakukan di <b>console.firebase.google.com</b> → project <b>GENERATOR PAS BANDARA HSN</b>:</p>' +
       '<ol class="ap-note" style="line-height:1.8">' + (perm ? "" : '<li><b>Buat database:</b> menu kiri <b>Databases &amp; Storage → Firestore</b> → <b>Create database</b> → lokasi <b>asia-southeast2 (Jakarta)</b> → <b>Production mode</b> → Create.</li>') +
       '<li><b>Atur Rules:</b> tab <b>Rules</b> → ganti seluruh isi dengan kode di bawah → <b>Publish</b>.</li></ol>' +
-      '<pre style="background:#f3f6fa;border:1px solid var(--line);border-radius:8px;padding:10px;font-size:12px;overflow:auto">rules_version = \'2\';\nservice cloud.firestore {\n  match /databases/{database}/documents {\n    match /{document=**} {\n      allow read, write: if request.auth != null;\n    }\n  }\n}</pre>' +
+      '<pre style="background:#f3f6fa;border:1px solid var(--line);border-radius:8px;padding:10px;font-size:12px;overflow:auto">rules_version = \'2\';\nservice cloud.firestore {\n  match /databases/{database}/documents {\n    match /apar_public/{id} {\n      allow read: if true;\n    }\n    match /{document=**} {\n      allow read, write: if request.auth != null;\n    }\n  }\n}</pre>' +
       '<div class="ap-row" style="margin-top:12px"><button class="btn pri" id="apRetry">↻ Coba lagi</button><span class="ap-note">Setelah membuat database, tunggu ±1 menit lalu klik Coba lagi.</span></div></div>';
     $("apRetry").onclick = () => { this.loaded = false; this.open(tab, arg); };
   },
@@ -1543,7 +1572,7 @@ const Apar = {
     $("apAdd").onclick = () => this.unitModal(null);
     if ($("apSeed")) $("apSeed").onclick = async () => { try { const st = Store(); for (let i = 0; i < SEED_APAR.length; i++) { const x = SEED_APAR[i]; busy(true, "Memuat titik APAR…", i / SEED_APAR.length, x.kode); await tick();
       await st.put("apar_units", unitId(x.kode), { kode: x.kode, lokasi: x.lokasi, area: x.area, jenis: "", kapasitas: "", merk: "", isiUlang: "", kedaluwarsa: "", aktif: true, diubah: new Date().toISOString(), diubahOleh: CURRENT_USER ? CURRENT_USER.email : "" }); }
-      busy(false); await this.loadAll(true); this.vUnits(); msg("apUMsg", "ok", "54 titik APAR dimuat. Lokasi diisi perkiraan dari denah — koreksi lewat tombol <b>Edit</b> bila perlu, lalu cetak <b>Stiker QR</b>."); } catch (e) { busy(false); msg("apUMsg", "err", esc(e.message)); } };
+      busy(false); await this.loadAll(true); await this.publish(); this.vUnits(); msg("apUMsg", "ok", "54 titik APAR dimuat. Lokasi diisi perkiraan dari denah — koreksi lewat tombol <b>Edit</b> bila perlu, lalu cetak <b>Stiker QR</b>."); } catch (e) { busy(false); msg("apUMsg", "err", esc(e.message)); } };
     $("apTpl").onclick = async () => download(await makeXlsx("Data APAR", [["KODE", "LOKASI", "AREA / GEDUNG", "JENIS", "KAPASITAS", "MERK", "TGL ISI ULANG", "KEDALUWARSA"],
       ["APAR-001", "Terminal Keberangkatan - dekat Gate 1", "Terminal", "Powder (Dry Chemical)", "6 kg", "Yamato", "2026-01-15", "2027-01-15"],
       ["APAR-002", "Ruang Genset", "Gedung Utilitas", "CO2", "5 kg", "Servvo", "2026-03-01", "2027-03-01"]], [12, 38, 18, 22, 11, 12, 15, 15]), "Template_Data_APAR.xlsx");
@@ -1574,7 +1603,7 @@ const Apar = {
       const id = unitId(kode); if (n && this.units.some(x => x.id === id)) return msg("fuMsg", "err", "Kode " + esc(kode) + " sudah ada.");
       const data = { kode, lokasi: lok, area: $("fuArea").value.trim(), jenis: $("fuJenis").value, kapasitas: $("fuKap").value.trim(), merk: $("fuMerk").value.trim(),
         isiUlang: $("fuIsi").value, kedaluwarsa: $("fuExp").value, aktif: $("fuAkt").value === "1", diubah: new Date().toISOString(), diubahOleh: CURRENT_USER ? CURRENT_USER.email : "" };
-      try { $("fuOk").disabled = true; await Store().put("apar_units", id, data); await this.loadAll(true); this.closeModal(); this.vUnits(); } catch (e) { $("fuOk").disabled = false; msg("fuMsg", "err", esc(e.message)); }
+      try { $("fuOk").disabled = true; await Store().put("apar_units", id, data); await this.loadAll(true); await this.publish([id]); this.closeModal(); this.vUnits(); } catch (e) { $("fuOk").disabled = false; msg("fuMsg", "err", esc(e.message)); }
     };
     if (!n) $("fuDel").onclick = async () => { if (!confirm("Hapus APAR " + u.kode + "? Riwayat pengecekannya tetap tersimpan.")) return; try { await Store().del("apar_units", u.id); await this.loadAll(true); this.closeModal(); this.vUnits(); } catch (e) { msg("fuMsg", "err", esc(e.message)); } };
   },
@@ -1594,7 +1623,7 @@ const Apar = {
           isiUlang: toISO(g(r, "isi")), kedaluwarsa: toISO(g(r, "exp")), aktif: true, diubah: new Date().toISOString(), diubahOleh: CURRENT_USER ? CURRENT_USER.email : "" });
         n++;
       }
-      busy(false); await this.loadAll(true); this.vUnits();
+      busy(false); await this.loadAll(true); await this.publish(); this.vUnits();
       msg("apUMsg", n ? "ok" : "warn", "<b>" + n + " APAR</b> diimpor/diperbarui dari " + esc(file.name) + "." + (skip ? " " + skip + " baris dilewati karena lokasi kosong." : ""));
     } catch (e) { busy(false); msg("apUMsg", "err", "Gagal import: " + esc(e.message)); }
   },
@@ -1622,7 +1651,7 @@ const Apar = {
       wrap2(u.lokasi, F, 7, mm(tw2)).forEach((l, i) => page.drawText(l, { x: X(tx), y: Y(18 + i * 3.2), size: 7, font: F }));
       page.drawText(fit([u.area, u.jenis, u.kapasitas].filter(Boolean).join(" - "), F, 6.5, mm(tw2)), { x: X(tx), y: Y(25.6), size: 6.5, font: F, color: rgb(.3, .3, .3) });
       if (u.kedaluwarsa) page.drawText(fit("Exp: " + fmtID(u.kedaluwarsa), F, 6.5, mm(tw2)), { x: X(tx), y: Y(28.8), size: 6.5, font: F, color: rgb(.3, .3, .3) });
-      page.drawText("Scan QR untuk isi checklist", { x: X(tx), y: Y(34.2), size: 5.8, font: FB, color: rgb(.07, .2, .36) });
+      page.drawText("Scan QR: status & checklist", { x: X(tx), y: Y(34.2), size: 5.8, font: FB, color: rgb(.07, .2, .36) });
     }
     download(new Blob([await pdf.save()], { type: "application/pdf" }), "Stiker_QR_APAR.pdf");
   },
@@ -1672,7 +1701,7 @@ const Apar = {
       const data = { unitId: u.id, kode: u.kode, lokasi: u.lokasi || "", area: u.area || "", tanggal: tgl, periode: tgl.slice(0, 7), waktu: new Date().toISOString(), regu, petugas: pet,
         email: CURRENT_USER ? CURRENT_USER.email : "", hasil, gagal, status: gagal.length ? "Perlu Tindakan" : "Baik", catatan: $("fcCat").value.trim(), foto: this.form.foto || "" };
       try { localStorage.setItem("aos_last_regu", regu); } catch (e) {}
-      try { $("fcOk").disabled = true; $("fcOk").textContent = "Menyimpan…"; await Store().add("apar_checks", data); await this.loadAll(true);
+      try { $("fcOk").disabled = true; $("fcOk").textContent = "Menyimpan…"; await Store().add("apar_checks", data); await this.loadAll(true); await this.publish([u.id]);
         $("apBody").innerHTML = '<div class="ap-card" style="max-width:720px;text-align:center;padding:30px"><div style="font-size:44px">' + (gagal.length ? "⚠️" : "✅") + '</div><h3 style="margin:8px 0">Checklist ' + esc(u.kode) + " tersimpan</h3>" +
           '<p><span class="tag ' + (gagal.length ? "bad" : "ok") + '">' + data.status + "</span></p>" + (gagal.length ? '<p class="ap-note">' + esc(gagal.join(" · ")) + "</p>" : "") +
           '<p class="ap-note">' + esc(regu) + " · " + esc(pet) + " · " + fmtID(tgl) + "</p>" +
@@ -1696,7 +1725,7 @@ const Apar = {
     $("apXls").onclick = () => this.exportXls();
     $("apPdf").onclick = () => this.exportPdf();
     $("apBody").querySelectorAll("[data-foto]").forEach(b => b.onclick = () => { const c = this.checks.find(x => x.id === b.dataset.foto); this.modal("<h4>Foto " + esc(c.kode) + " — " + fmtID(c.tanggal) + '</h4><img src="' + c.foto + '" style="max-width:100%;border-radius:8px"><div class="ap-row" style="margin-top:12px"><div class="sp"></div><button class="btn pri" id="apMX">Tutup</button></div>'); $("apMX").onclick = () => this.closeModal(); });
-    $("apBody").querySelectorAll("[data-cdel]").forEach(b => b.onclick = async () => { const c = this.checks.find(x => x.id === b.dataset.cdel); if (!confirm("Hapus pemeriksaan " + c.kode + " tanggal " + fmtID(c.tanggal) + "?")) return; try { await Store().del("apar_checks", c.id); await this.loadAll(true); this.vRekap(); } catch (e) { alert(e.message); } });
+    $("apBody").querySelectorAll("[data-cdel]").forEach(b => b.onclick = async () => { const c = this.checks.find(x => x.id === b.dataset.cdel); if (!confirm("Hapus pemeriksaan " + c.kode + " tanggal " + fmtID(c.tanggal) + "?")) return; try { await Store().del("apar_checks", c.id); await this.loadAll(true); await this.publish([c.unitId]); this.vRekap(); } catch (e) { alert(e.message); } });
   },
   rekapRows() {
     const act = this.units.filter(u => u.aktif !== false);
@@ -1792,6 +1821,47 @@ const Apar = {
   }
 };
 document.addEventListener("click", e => { if (e.target && e.target.id === "apModal") Apar.closeModal(); });
+
+/* ---------- Halaman publik: status APAR tanpa login ---------- */
+const Public = {
+  active: false,
+  async waitFirebase() { const t0 = Date.now(); while (!(typeof firebase !== "undefined" && firebase.apps && firebase.apps.length && firebase.firestore)) { if (Date.now() - t0 > 15000) throw new Error("Tidak bisa memuat layanan. Periksa koneksi internet."); await new Promise(r => setTimeout(r, 150)); } },
+  async show(kode) {
+    this.active = true; document.body.classList.add("publicview");
+    const v = $("publicView"); v.style.display = "flex";
+    v.innerHTML = '<div class="pv-card"><div class="pv-hd"><img src="' + (S.logoL || ASSETS.logoL) + '" alt=""><div><b>Status APAR</b><small>' + esc(S.ap || "") + '</small></div></div><div class="pv-bd"><p class="ap-note">Memuat data ' + esc(kode) + "…</p></div></div>";
+    let d = null, err = "";
+    try {
+      if (Auth.online) { await this.waitFirebase(); const s = await withTimeout(firebase.firestore().collection("apar_public").doc(unitId(kode)).get(), 15000); d = s.exists ? s.data() : null; }
+      else d = await LocalStore.get("apar_public", unitId(kode));
+    } catch (e) { err = e && e.code === "permission-denied" ? "Halaman status publik belum diaktifkan oleh admin (aturan database)." : e.code === "timeout" ? "Database tidak merespons. Periksa koneksi internet." : (e.message || "Gagal memuat data."); }
+    if (this.active) this.render(kode, d, err);
+  },
+  render(kode, d, err) {
+    const v = $("publicView"); const L = d && d.last;
+    const okCls = s => s === "Baik" ? "ok" : "bad";
+    const exp = d && d.kedaluwarsa ? daysTo(d.kedaluwarsa) : null;
+    const bulanIni = L && L.periode === thisMonth();
+    let body;
+    if (err) body = '<div class="msg err">' + esc(err) + "</div>";
+    else if (!d) body = '<div class="msg warn">APAR dengan kode <b>' + esc(kode) + "</b> belum terdaftar.</div>";
+    else body = '<div class="pv-kode">' + esc(d.kode) + "</div>" +
+      '<div class="pv-lok">' + esc(d.lokasi) + (d.area ? '<span class="ap-note"> · ' + esc(d.area) + "</span>" : "") + "</div>" +
+      ((d.jenis || d.kapasitas || d.kedaluwarsa) ? '<div class="ap-note" style="margin-top:4px">' + esc([d.jenis, d.kapasitas, d.merk].filter(Boolean).join(" · ")) + (d.kedaluwarsa ? (d.jenis || d.kapasitas ? " · " : "") + "Kedaluwarsa " + fmtID(d.kedaluwarsa) + (exp != null && exp < 0 ? ' <span class="tag bad">lewat</span>' : "") : "") + "</div>" : "") +
+      (L ? '<div class="pv-status ' + okCls(L.status) + '"><span>' + (L.status === "Baik" ? "✔" : "⚠") + " " + esc(L.status) + "</span><small>Pemeriksaan terakhir " + fmtID(L.tanggal) + "</small></div>" +
+        '<div class="pv-meta"><div><span>Regu</span><b>' + esc(L.regu || "-") + "</b></div><div><span>Petugas</span><b>" + esc(L.petugas || "-") + "</b></div><div><span>Bulan ini</span><b>" + (bulanIni ? "Sudah dicek" : "Belum dicek") + "</b></div></div>" +
+        '<table class="ap pv-tbl"><thead><tr><th>Item</th><th style="text-align:right">Kondisi</th></tr></thead><tbody>' +
+        (L.hasil || []).map(x => "<tr><td>" + esc(x.item) + '</td><td style="text-align:right"><span class="tag ' + (x.ok ? "ok" : "bad") + '">' + esc(x.nilai || (x.ok ? "Baik" : "Tidak")) + "</span></td></tr>").join("") + "</tbody></table>" +
+        (L.catatan ? '<div class="unit-box" style="margin-top:10px"><b>Catatan:</b> ' + esc(L.catatan) + "</div>" : "") +
+        ((d.riwayat || []).length > 1 ? '<details style="margin-top:12px"><summary class="ap-note" style="cursor:pointer">Riwayat pemeriksaan (' + d.riwayat.length + ")</summary>" + d.riwayat.map(r => '<div class="pv-hist"><span>' + fmtID(r.tanggal) + "</span><span>" + esc(r.regu) + " · " + esc(r.petugas) + '</span><span class="tag ' + okCls(r.status) + '">' + esc(r.status) + "</span></div>").join("") + "</details>" : "")
+        : '<div class="pv-status mute"><span>Belum pernah dicek</span><small>Belum ada data pemeriksaan untuk APAR ini.</small></div>');
+    v.innerHTML = '<div class="pv-card"><div class="pv-hd"><img src="' + (S.logoL || ASSETS.logoL) + '" alt=""><div><b>Status APAR</b><small>' + esc(S.ap || "") + '</small></div></div><div class="pv-bd">' + body +
+      '<div class="pv-ft"><button class="btn pri" id="pvLogin">🔑 Petugas: masuk untuk isi checklist</button><p class="ap-note">Halaman ini dapat dilihat tanpa login (untuk auditor/pemeriksa).</p></div></div></div>';
+    $("pvLogin").onclick = () => this.toLogin();
+  },
+  toLogin() { this.active = false; document.body.classList.remove("publicview"); $("publicView").style.display = "none"; if (CURRENT_USER) route(); },
+  hide() { this.active = false; document.body.classList.remove("publicview"); $("publicView").style.display = "none"; }
+};
 
 /* ===================== AUTH ===================== */
 const Auth = (function () {
@@ -1912,6 +1982,7 @@ $("modeNote").innerHTML = Auth.online ? "🔒 Akun online — bisa masuk dari pe
 function onUser(u) {
   document.body.classList.toggle("locked", !u);
   CURRENT_USER = u || null;
+  if (u && Public.active) Public.hide();
   if (u) { $("uName").textContent = u.name; $("uAv").textContent = (u.name || "?").trim()[0].toUpperCase(); $("uName").title = u.email; Apar.loaded = false; route(); }
   else { $("lPass").value = ""; setAuthMode("login"); }
 }
@@ -1931,6 +2002,8 @@ function showVerify(p, d) {
     '<div class="ft"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMDAgOTAiPjxkZWZzPjxsaW5lYXJHcmFkaWVudCBpZD0iZyIgeDE9IjAiIHkxPSIwIiB4Mj0iMSIgeTI9IjEiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iI0YyQjcwNSIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iI0U4NTkwQyIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHg9IjYiIHk9IjkiIHdpZHRoPSI3MiIgaGVpZ2h0PSI3MiIgcng9IjE4IiBmaWxsPSJ1cmwoI2cpIi8+PHRleHQgeD0iNDIiIHk9IjY2IiBmb250LWZhbWlseT0iQXJpYWwsIEhlbHZldGljYSwgc2Fucy1zZXJpZiIgZm9udC13ZWlnaHQ9IjgwMCIgZm9udC1zaXplPSI1MCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iI2ZmZiI+TDwvdGV4dD48dGV4dCB4PSI5NCIgeT0iNjIiIGZvbnQtZmFtaWx5PSJBcmlhbCwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmIiBmb250LXdlaWdodD0iODAwIiBmb250LXNpemU9IjQ2IiBmaWxsPSIjMGIyNTQ1Ij5MYXJpJ3NlPC90ZXh0Pjwvc3ZnPgo=" alt="">Generator Pas Bandara · data dibaca dari QR pada kartu</div></div>';
 }
 const _qs = new URLSearchParams(location.search), _vp = _qs.get("p"), _vd = _qs.get("d");
+const _pub = location.hash.match(/^#\/?apar\/cek\/([^\/]+)$/);
+if (_pub && _vd == null && !_vp) Public.show(decodeURIComponent(_pub[1]));
 if (_vd != null || _vp) showVerify(_vp, _vd); else
 Auth.init(onUser).catch(e => { document.body.classList.add("locked"); msg("lMsg", "err", esc(e.message)); });
 
