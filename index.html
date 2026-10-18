@@ -287,6 +287,23 @@ body.publicview #auth,body.publicview header.top,body.publicview .view{display:n
 .pv-tbl td{font-size:14px;font-weight:600}
 .pv-hist{display:flex;justify-content:space-between;gap:8px;font-size:12.5px;padding:6px 0;border-bottom:1px solid #eef1f5}
 .pv-ft{margin-top:18px;border-top:1px solid #eef1f5;padding-top:14px;text-align:center}.pv-ft .btn{width:100%;padding:11px}
+/* ===== Header & logo: kop putih bersih (v4.6) ===== */
+header.top{background:#fff;color:#2B2F36;border-bottom:1px solid #E3E8EE;box-shadow:0 1px 2px rgba(14,34,56,.04);padding:10px 24px;gap:16px;min-height:64px}
+header.top .brandlogo{height:40px;width:auto;max-width:150px;background:none;border-radius:0;padding:0;display:block}
+header.top .brandlogo + div{border-left:1px solid #E3E8EE;padding-left:16px}
+header.top h1{color:#0E2238;font-family:"Barlow Semi Condensed","Barlow",sans-serif;font-weight:600;font-size:19px;letter-spacing:0}
+header.top small{opacity:1;color:#6B7684;font-size:12.5px}
+header.top .count{background:#F1F4F7;color:#44505E;font-size:12.5px}
+header.top .user{color:#2B2F36}
+header.top .user .av{background:#0E2238;color:#FFC20E}
+header.top .user button,header.top .navhome{background:#fff;color:#2B2F36;border:1px solid #D5DCE4}
+header.top .user button:hover,header.top .navhome:hover{border-color:#0E2238;background:#F7F9FB}
+header.top .user button:focus-visible,header.top .navhome:focus-visible{outline:3px solid #13A9BD;outline-offset:2px}
+/* halaman login: logo di area putih, tanpa kotak */
+#auth .brand .lg{display:none}
+#auth .box .mlogo{display:block;height:58px;width:auto;margin:0 0 34px}
+@media (max-width:700px){header.top{padding:8px 14px;min-height:56px;gap:10px}header.top .brandlogo{height:32px}header.top .brandlogo + div{padding-left:10px}header.top h1{font-size:16px}}
+@media (max-width:520px){header.top .brandlogo + div{display:none}header.top .brandlogo{height:34px}}
 </style>
 <style id="pageStyle"></style>
 </head>
@@ -332,7 +349,7 @@ body.publicview #auth,body.publicview header.top,body.publicview .view{display:n
   <div><h1 id="hdTitle">Generator Pas Bandara</h1><small id="hdSub">Upload Excel → mockup pas + QR/barcode → cetak / PDF / PNG</small></div>
   <a class="navhome" id="navHome" href="#home">🏠 Beranda</a>
   <div class="sp"></div>
-  <div class="count" title="Versi aplikasi">v4.5 · 18 Okt 2026</div>
+  <div class="count" title="Versi aplikasi">v4.6 · 18 Okt 2026</div>
   <div class="count" id="countBadge">0 pas</div>
   <div class="user"><div class="av" id="uAv">?</div><span id="uName"></span><button id="btnLogout">Keluar</button></div>
 </header>
