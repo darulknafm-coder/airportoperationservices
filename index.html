@@ -161,6 +161,7 @@ header.top .user button{background:rgba(255,255,255,.12);color:#fff;border:1px s
   #printArea svg{display:block}
 }
 </style>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Semi+Condensed:wght@600;700&display=swap" rel="stylesheet">
 <style>/* ===== Beranda AOS & modul APAR ===== */
 body.locked #homeView, body.locked #aparView, body.verifying #homeView, body.verifying #aparView{display:none!important}
 .view{display:none}
@@ -168,23 +169,63 @@ body.locked #homeView, body.locked #aparView, body.verifying #homeView, body.ver
 .wrap.view.on{display:grid}
 header.top .navhome{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.25);border-radius:8px;padding:7px 12px;font:inherit;font-size:13px;font-weight:600;cursor:pointer;text-decoration:none;display:none}
 header.top .navhome.on{display:inline-flex;align-items:center;gap:6px}
-#homeView{min-height:calc(100vh - 56px);background:radial-gradient(1200px 400px at 10% -10%,#1d4e89 0,transparent 60%),var(--bg)}
-.hero{background:linear-gradient(135deg,#0b2545 0%,#13315c 60%,#1d4e89 100%);color:#fff;padding:34px 28px 64px;position:relative;overflow:hidden}
-.hero::after{content:"";position:absolute;right:-80px;top:-60px;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(242,183,5,.32),transparent 70%)}
-.hero .in{max-width:1080px;margin:0 auto;position:relative;z-index:1}
-.hero .kick{display:inline-block;background:rgba(242,183,5,.18);color:#ffd45c;border:1px solid rgba(242,183,5,.4);padding:4px 10px;border-radius:20px;font-size:12px;font-weight:700;letter-spacing:.4px}
-.hero h2{font-size:30px;margin:12px 0 6px;line-height:1.2}
-.hero p{margin:0;opacity:.85;max-width:620px;line-height:1.5}
-.hero .meta{display:flex;gap:18px;flex-wrap:wrap;margin-top:16px;font-size:13px;opacity:.9}
-.tiles{max-width:1080px;margin:-40px auto 40px;padding:0 20px;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px;position:relative;z-index:2}
-.tile{background:#fff;border-radius:16px;padding:22px;box-shadow:0 8px 24px rgba(16,24,40,.10);text-decoration:none;color:var(--text);display:flex;flex-direction:column;gap:10px;border:1px solid transparent;transition:.15s;min-height:190px}
-.tile:hover{transform:translateY(-2px);border-color:#c9d6ea;box-shadow:0 12px 28px rgba(16,24,40,.14)}
-.tile .ic{width:52px;height:52px;border-radius:14px;display:grid;place-items:center;font-size:26px}
-.tile h3{margin:4px 0 0;font-size:19px}
-.tile p{margin:0;color:var(--muted);line-height:1.5;font-size:13.5px;flex:1}
-.tile .go{font-weight:700;color:var(--navy);font-size:13.5px}
-.tile .stat{font-size:12.5px;color:var(--navy);background:#eef3fb;border-radius:8px;padding:6px 10px;align-self:flex-start}
-.tile.soon{opacity:.6;pointer-events:none;box-shadow:none;border:1px dashed #c3ccd9;background:transparent}
+#homeView{min-height:calc(100vh - 56px);background:#F3F5F7;--ink:#2B2F36;--night:#0E2238;--night2:#15304d;--sign:#FFC20E;--teal:#13A9BD;--line:#DDE3EA;font-family:"Barlow",var(--ui-font,system-ui),sans-serif;color:var(--ink)}
+.hm{max-width:1120px;margin:0 auto;padding:28px 24px 56px}
+.hm-top{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;margin-bottom:20px}
+.hm-greet{font-family:"Barlow Semi Condensed","Barlow",sans-serif;font-weight:600;font-size:34px;line-height:1.1;margin:0;letter-spacing:-.2px}
+.hm-sub{margin:6px 0 0;color:#5B6573;font-size:15px}
+.hm-time{display:grid;grid-template-columns:auto auto;align-items:baseline;column-gap:6px;text-align:right;justify-content:end}
+.hm-clock{font-family:"Barlow Semi Condensed",sans-serif;font-weight:600;font-size:40px;line-height:1;font-variant-numeric:tabular-nums;color:var(--night)}
+.hm-tz{font-weight:600;color:#5B6573;font-size:14px}
+.hm-date{grid-column:1/-1;color:#5B6573;font-size:14px;margin-top:4px}
+.board{background:var(--night);color:#E8EEF5;border-radius:14px;padding:6px 0 4px;box-shadow:0 1px 0 rgba(255,255,255,.04) inset,0 18px 40px -24px rgba(14,34,56,.6)}
+.board-hd{display:flex;justify-content:space-between;align-items:baseline;padding:14px 22px 10px;border-bottom:1px solid rgba(255,255,255,.08)}
+.board-hd h3{margin:0;font-family:"Barlow Semi Condensed",sans-serif;font-weight:600;font-size:19px;color:#fff}
+.board-per{color:var(--sign);font-family:"Barlow Semi Condensed",sans-serif;font-weight:600;font-size:16px}
+.board-cols,.board-row{display:grid;grid-template-columns:minmax(170px,1.1fr) 130px minmax(0,2fr) 150px;gap:16px;align-items:center;padding:0 22px}
+.board-cols{padding-top:10px;padding-bottom:6px;font-size:12.5px;color:#8FA3B8}
+.board-row{min-height:62px;border-top:1px solid rgba(255,255,255,.06)}
+.board-row:first-child{border-top:0}
+.b-label{font-size:16px;font-weight:500;color:#fff}
+.b-num{font-family:"Barlow Semi Condensed",sans-serif;font-weight:700;font-size:30px;line-height:1;color:var(--sign);font-variant-numeric:tabular-nums}
+.b-num .flip{display:inline-block;font-style:normal;background:#0A1A2C;border-radius:6px;padding:5px 9px 4px;box-shadow:inset 0 -1px 0 rgba(255,255,255,.06),inset 0 1px 0 rgba(0,0,0,.4);position:relative}
+.b-num .flip::after{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:rgba(0,0,0,.55)}
+.b-note{color:#B9C7D6;font-size:14.5px;display:flex;align-items:center;gap:12px;min-width:0}
+.b-bar{flex:1;max-width:260px;height:8px;border-radius:5px;background:rgba(255,255,255,.12);overflow:hidden}
+.b-bar i{display:block;height:100%;background:var(--teal);border-radius:5px}
+.b-pct{white-space:nowrap;color:#E8EEF5}
+.b-act{justify-self:end;color:#fff;text-decoration:none;font-weight:600;font-size:14px;border:1px solid rgba(255,255,255,.28);border-radius:8px;padding:8px 14px;white-space:nowrap}
+.b-act:hover{background:rgba(255,255,255,.08)}
+.b-act:focus-visible,.mod:focus-visible,.act-row:focus-visible{outline:3px solid var(--sign);outline-offset:2px}
+.board-row.t-bad .b-num{color:#FF8A80}.board-row.t-warn .b-num{color:var(--sign)}.board-row.t-ok .b-num{color:#9BE37A}
+.board-row.is-loading .b-label{color:#8FA3B8}
+.hm-h{font-family:"Barlow Semi Condensed",sans-serif;font-weight:600;font-size:21px;margin:32px 0 12px}
+.mods{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.mod{display:grid;grid-template-columns:64px 1fr auto;gap:16px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px 18px 18px 18px;text-decoration:none;color:var(--ink)}
+.mod:hover{border-color:#9FB2C6}
+.mod-ic{width:64px;height:64px;border-radius:10px;background:var(--night);color:var(--sign);display:grid;place-items:center}
+.mod-ic svg{width:38px;height:38px}
+.mod-body{display:flex;flex-direction:column;gap:4px;min-width:0}
+.mod-body b{font-family:"Barlow Semi Condensed",sans-serif;font-weight:600;font-size:20px}
+.mod-body span{color:#5B6573;font-size:14px;line-height:1.45}
+.mod-go{font-weight:600;color:var(--night);border:1px solid var(--line);border-radius:8px;padding:8px 14px;font-size:14px}
+.mod:hover .mod-go{background:var(--night);color:#fff;border-color:var(--night)}
+.hm-more{color:#7A8594;font-size:13.5px;margin:10px 2px 0}
+.act{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.act-row{display:grid;grid-template-columns:12px 1fr auto;gap:14px;align-items:center;padding:13px 18px;border-top:1px solid #EDF1F5;text-decoration:none;color:var(--ink)}
+.act-row:first-child{border-top:0}
+.act-row:hover{background:#F8FAFC}
+.act-dot{width:10px;height:10px;border-radius:50%}.act-dot.ok{background:#8DC63F}.act-dot.bad{background:#E5483D}
+.act-main{font-size:15px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.act-main small{display:block;color:#7A8594;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.act-time{display:flex;align-items:center;gap:6px;color:#7A8594;font-size:13px;white-space:nowrap}
+.act-time svg{width:15px;height:15px}
+.act-empty{margin:0;padding:18px;color:#7A8594;font-size:14.5px}
+@media (prefers-reduced-motion:no-preference){.board-row .flip{animation:flipIn .55s cubic-bezier(.2,.7,.2,1) both}.board-row:nth-child(2) .flip{animation-delay:.08s}.board-row:nth-child(3) .flip{animation-delay:.16s}.board-row:nth-child(4) .flip{animation-delay:.24s}}
+@keyframes flipIn{0%{transform:perspective(300px) rotateX(-90deg);opacity:0}100%{transform:none;opacity:1}}
+@media (max-width:760px){.hm{padding:18px 14px 44px}.hm-top{flex-direction:column;align-items:flex-start;gap:10px}.hm-time{text-align:left;justify-content:start}.hm-greet{font-size:28px}.hm-clock{font-size:32px}
+.board-cols{display:none}.board-row{grid-template-columns:1fr auto;grid-template-areas:"l n" "t t" "a a";row-gap:8px;padding:14px 18px}.b-label{grid-area:l}.b-num{grid-area:n;justify-self:end}.b-note{grid-area:t;font-size:14px}.b-act{grid-area:a;justify-self:start}
+.mods{grid-template-columns:1fr}.mod{grid-template-columns:52px 1fr;}.mod-ic{width:52px;height:52px}.mod-ic svg{width:32px;height:32px}.mod-go{display:none}.act-row{grid-template-columns:12px 1fr}.act-time{grid-column:2}}
 /* APAR */
 #aparView{max-width:1180px;margin:0 auto;padding:16px 20px 60px}
 .ap-tabs{display:flex;gap:4px;background:#dfe5ee;padding:4px;border-radius:10px;flex-wrap:wrap;margin-bottom:16px}
@@ -291,7 +332,7 @@ body.publicview #auth,body.publicview header.top,body.publicview .view{display:n
   <div><h1 id="hdTitle">Generator Pas Bandara</h1><small id="hdSub">Upload Excel → mockup pas + QR/barcode → cetak / PDF / PNG</small></div>
   <a class="navhome" id="navHome" href="#home">🏠 Beranda</a>
   <div class="sp"></div>
-  <div class="count" title="Versi aplikasi">v4.4 · 16 Okt 2026</div>
+  <div class="count" title="Versi aplikasi">v4.5 · 18 Okt 2026</div>
   <div class="count" id="countBadge">0 pas</div>
   <div class="user"><div class="av" id="uAv">?</div><span id="uName"></span><button id="btnLogout">Keluar</button></div>
 </header>
@@ -1435,20 +1476,65 @@ function route() {
 window.addEventListener("hashchange", route);
 
 /* ---------- Beranda ---------- */
+const ICON = {
+  pass: '<svg viewBox="0 0 48 48" aria-hidden="true"><rect x="9" y="5" width="30" height="38" rx="4" fill="none" stroke="currentColor" stroke-width="3"/><rect x="19" y="2" width="10" height="7" rx="2" fill="currentColor"/><circle cx="24" cy="20" r="5.5" fill="currentColor"/><path d="M14.5 34c1.6-5 5.3-7.5 9.5-7.5s7.9 2.5 9.5 7.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>',
+  apar: '<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M18 14h12a2 2 0 0 1 2 2v26a3 3 0 0 1-3 3H19a3 3 0 0 1-3-3V16a2 2 0 0 1 2-2z" fill="currentColor"/><rect x="20" y="8" width="8" height="6" rx="1.5" fill="currentColor"/><path d="M28 10h6l5 3" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 20c-5 1-7 5-7 11" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>',
+  clock: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 7v5l3 2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>'
+};
 const Home = {
+  timer: null,
+  greet() { const h = new Date().getHours(); return h < 11 ? "Selamat pagi" : h < 15 ? "Selamat siang" : h < 18 ? "Selamat sore" : "Selamat malam"; },
+  clock() {
+    const d = new Date(), t = pad2(d.getHours()) + ":" + pad2(d.getMinutes());
+    const el = $("hmClock"); if (!el) { clearInterval(this.timer); return; } el.textContent = t;
+  },
   render() {
-    const h = new Date().getHours(), salam = h < 11 ? "Selamat pagi" : h < 15 ? "Selamat siang" : h < 18 ? "Selamat sore" : "Selamat malam";
-    $("homeView").innerHTML = '<div class="hero"><div class="in"><span class="kick">AIRPORT OPERATION &amp; SERVICES</span>' +
-      "<h2>" + salam + ", " + esc((CURRENT_USER && CURRENT_USER.name) || "") + "</h2>" +
-      "<p>Portal kerja unit Airport Operation &amp; Services — Bandar Udara Husein Sastranegara. Pilih modul di bawah untuk mulai bekerja.</p>" +
-      '<div class="meta"><span>📅 ' + new Date().toLocaleDateString("id-ID", { weekday: "long", day: "numeric", month: "long", year: "numeric" }) + "</span><span>" + (Auth.online ? "🔒 Akun online" : "💻 Mode lokal") + "</span></div></div></div>" +
-      '<div class="tiles">' +
-      '<a class="tile" href="#pas"><div class="ic" style="background:#fff5cc">🪪</div><h3>Generator Pas Bandara</h3><p>Buat mockup pas bandara massal dari Excel lengkap dengan foto, QR Cek Pas, jabatan, instansi &amp; nomor pas. Unduh PDF, Word, atau PNG.</p><span class="go">Buka modul →</span></a>' +
-      '<a class="tile" href="#apar"><div class="ic" style="background:#fde3e3">🧯</div><h3>Checklist APAR</h3><p>Inspeksi bulanan Alat Pemadam Api Ringan: scan QR di tabung, isi checklist dari HP, pantau status &amp; kedaluwarsa, unduh rekap.</p><span class="stat" id="homeAparStat">Memuat ringkasan…</span><span class="go">Buka modul →</span></a>' +
-      '<div class="tile soon"><div class="ic" style="background:#e8eef7">➕</div><h3>Modul berikutnya</h3><p>Segera hadir — modul operasional lain dapat ditambahkan di sini.</p></div>' +
+    const d = new Date(), first = ((CURRENT_USER && CURRENT_USER.name) || "").trim().split(/\s+/)[0] || "";
+    const nameCase = first ? first.charAt(0).toUpperCase() + first.slice(1).toLowerCase() : "";
+    $("homeView").innerHTML =
+      '<div class="hm">' +
+      '<section class="hm-top"><div><h2 class="hm-greet">' + this.greet() + (nameCase ? ", " + esc(nameCase) : "") + '</h2>' +
+      '<p class="hm-sub">Ringkasan pekerjaan unit AOS hari ini.</p></div>' +
+      '<div class="hm-time"><span class="hm-clock" id="hmClock">--:--</span><span class="hm-tz">WIB</span><span class="hm-date">' +
+      d.toLocaleDateString("id-ID", { weekday: "long", day: "numeric", month: "long", year: "numeric" }) + "</span></div></section>" +
+      '<section class="board" aria-label="Papan status operasional"><header class="board-hd"><h3>Status operasional</h3><span class="board-per">' + esc(monthLabel(thisMonth())) + '</span></header>' +
+      '<div class="board-cols" aria-hidden="true"><span>Pemeriksaan</span><span>Jumlah</span><span>Keterangan</span><span></span></div>' +
+      '<div id="hmBoard"><div class="board-row is-loading"><span class="b-label">Memuat data APAR…</span><span class="b-num"><i class="flip">··</i></span><span class="b-note"></span><span></span></div></div></section>' +
+      '<section class="hm-mods"><h3 class="hm-h">Modul kerja</h3><div class="mods">' +
+      '<a class="mod" href="#apar"><span class="mod-ic">' + ICON.apar + '</span><span class="mod-body"><b>Checklist APAR</b><span>Scan QR di tabung, isi tekanan, nozzle, expired &amp; kondisi fisik, lalu unduh laporan bulanan.</span></span><span class="mod-go">Buka</span></a>' +
+      '<a class="mod" href="#pas"><span class="mod-ic">' + ICON.pass + '</span><span class="mod-body"><b>Generator Pas Bandara</b><span>Buat pas massal dari Excel lengkap dengan foto dan QR Cek Pas. Unduh PDF, Word, atau PNG.</span></span><span class="mod-go">Buka</span></a>' +
+      '</div><p class="hm-more">Modul operasional lain akan ditambahkan di halaman ini.</p></section>' +
+      '<section class="hm-act"><h3 class="hm-h">Pemeriksaan terbaru</h3><div id="hmAct" class="act"><p class="act-empty">Memuat…</p></div></section>' +
       "</div>";
-    Apar.loadAll().then(() => { const s = Apar.summary(thisMonth()); const el = $("homeAparStat"); if (el) el.textContent = s.total ? s.total + " APAR · " + s.checked + " sudah dicek bulan ini · " + s.bad + " perlu tindakan" : "Belum ada data APAR"; })
-      .catch(e => { const el = $("homeAparStat"); if (el) el.textContent = "⚠ " + e.message; });
+    this.clock(); clearInterval(this.timer); this.timer = setInterval(() => this.clock(), 15000);
+    Apar.loadAll().then(() => this.fill()).catch(e => {
+      $("hmBoard").innerHTML = '<div class="board-row"><span class="b-label">Data APAR belum dapat dimuat</span><span class="b-num">—</span><span class="b-note">' + esc(e.message) + '</span><a class="b-act" href="#apar">Buka modul</a></div>';
+      $("hmAct").innerHTML = '<p class="act-empty">Belum ada data.</p>';
+    });
+  },
+  fill() {
+    const P = thisMonth(), s = Apar.summary(P), act = Apar.units.filter(u => u.aktif !== false);
+    const bad = act.filter(u => { const c = Apar.lastCheck(u.id, P); return c && c.status !== "Baik"; });
+    const exp = act.filter(u => { const x = daysTo(u.kedaluwarsa); return x != null && x <= 30; });
+    const now = new Date(), end = new Date(now.getFullYear(), now.getMonth() + 1, 0), left = end.getDate() - now.getDate();
+    const pct = s.total ? Math.round(s.checked / s.total * 100) : 0;
+    const codes = list => list.slice(0, 4).map(u => esc(u.kode)).join(", ") + (list.length > 4 ? " +" + (list.length - 4) : "");
+    const row = (lbl, num, note, href, cta, tone) => '<div class="board-row' + (tone ? " t-" + tone : "") + '"><span class="b-label">' + lbl + '</span><span class="b-num"><i class="flip">' + num + "</i></span>" +
+      '<span class="b-note">' + note + "</span>" + (href ? '<a class="b-act" href="' + href + '">' + cta + "</a>" : "<span></span>") + "</div>";
+    if (!s.total) {
+      $("hmBoard").innerHTML = row("APAR terdaftar", "0", "Belum ada data APAR. Muat 54 titik terminal di Daftar APAR.", "#apar/units", "Siapkan data", "warn");
+    } else {
+      $("hmBoard").innerHTML =
+        row("Inspeksi bulan ini", s.checked + "/" + s.total, '<span class="b-bar" role="progressbar" aria-valuenow="' + pct + '" aria-valuemin="0" aria-valuemax="100"><i style="width:' + pct + '%"></i></span><span class="b-pct">' + pct + "% selesai</span>", "#apar/cek", "Lanjutkan cek", pct === 100 ? "ok" : "") +
+        row("Belum diperiksa", String(s.unchecked), s.unchecked ? left + " hari lagi sampai akhir bulan" : "Semua APAR sudah diperiksa", s.unchecked ? "#apar/dash" : "", "Lihat daftar", s.unchecked && left <= 5 ? "warn" : "") +
+        row("Perlu tindakan", String(bad.length), bad.length ? codes(bad) : "Tidak ada temuan", bad.length ? "#apar/dash" : "", "Tindak lanjuti", bad.length ? "bad" : "ok") +
+        row("Kedaluwarsa ≤ 30 hari", String(exp.length), exp.length ? codes(exp) : "Tidak ada yang mendekati kedaluwarsa", exp.length ? "#apar/units" : "", "Periksa", exp.length ? "warn" : "ok");
+    }
+    const recent = Apar.checks.slice(0, 6);
+    const ago = iso => { const m = Math.round((Date.now() - new Date(iso)) / 60000); if (m < 1) return "baru saja"; if (m < 60) return m + " menit lalu"; const h = Math.round(m / 60); if (h < 24) return h + " jam lalu"; const dd = Math.round(h / 24); return dd < 7 ? dd + " hari lalu" : fmtID(iso.slice(0, 10)); };
+    $("hmAct").innerHTML = recent.length ? recent.map(c => '<a class="act-row" href="#apar/cek/' + encodeURIComponent(c.kode) + '"><span class="act-dot ' + (c.status === "Baik" ? "ok" : "bad") + '" aria-hidden="true"></span>' +
+      '<span class="act-main"><b>' + esc(c.kode) + "</b> " + esc(c.lokasi || "") + '<small>' + esc([c.regu, c.petugas].filter(Boolean).join(", ")) + " · " + esc(c.status) + "</small></span>" +
+      '<span class="act-time">' + ICON.clock + (c.waktu ? ago(c.waktu) : fmtID(c.tanggal)) + "</span></a>").join("") : '<p class="act-empty">Belum ada pemeriksaan. Scan QR di tabung APAR untuk memulai.</p>';
   }
 };
 
