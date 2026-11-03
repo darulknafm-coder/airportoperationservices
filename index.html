@@ -482,7 +482,7 @@ body.on-home header.top .user button:hover{background:rgba(255,255,255,.14)}
   <a class="navhome" id="navHome" href="#home">Beranda</a>
   <nav class="topnav" aria-label="Menu utama"><a href="#home" data-nv="home">Beranda</a><a href="#apar" data-nv="apar">Checklist APAR</a><a href="#pas" data-nv="pas">Pas Bandara</a></nav>
   <div class="sp"></div>
-  <div class="count" title="Versi aplikasi">v4.9 · 3 Nov 2026</div>
+  <div class="count" title="Versi aplikasi">v4.10 · 3 Nov 2026</div>
   <div class="count" id="countBadge">0 pas</div>
   <div class="user"><div class="av" id="uAv">?</div><span id="uName"></span><button id="btnLogout">Keluar</button></div>
 </header>
@@ -1007,21 +1007,19 @@ function areaTokens(a) {
   if (/[,;\s\/\-]/.test(a)) return a.split(/[,;\s\/\-]+/).filter(Boolean);
   return a.split("");
 }
-// Susun kode area: sedikit = ke bawah, banyak = menyamping (mis. AB / CG / PU)
-function areaLayout(toks, boxW, boxH, maxFs) {
-  boxW = boxW || 200; boxH = boxH || 330; maxFs = maxFs || 110;
+// Kode area: Arial 18 pt (63,5 satuan = 6,35 mm). Maks. 4 kode = ke bawah; lebih dari 4 = 2 kode per baris menyamping
+const AREA_PT = 18, AREA_FS = AREA_PT * 25.4 / 72 * 10;
+function areaW(t, s) { _mc.font = "bold " + s + "px Arial, Helvetica, sans-serif"; return _mc.measureText(t).width; }
+function areaLayout(toks, boxW, boxH) {
+  boxW = boxW || 200; boxH = boxH || 330;
   const n = toks.length; if (!n) return null;
-  const joiner = toks.every(t => t.length === 1) ? "" : " ";
-  let best = null;
-  for (let k = 1; k <= n; k++) {
-    const lines = []; for (let i = 0; i < n; i += k) lines.push(toks.slice(i, i + k).join(joiner));
-    const wide = Math.max.apply(null, lines.map(l => textW(l, 100)));
-    const fs = Math.min(maxFs, boxH / (lines.length * 1.08), boxW / (wide / 100));
-    // menyamping hanya bila hurufnya jadi jelas lebih besar (> 12%)
-    if (!best || fs > best.fs * 1.12) best = { k, lines, fs };
-  }
-  best.lh = Math.min(boxH / best.lines.length, best.fs * 1.08);
-  return best;
+  const per = n > 4 ? 2 : 1, lines = [];
+  for (let i = 0; i < n; i += per) { const g = toks.slice(i, i + per); lines.push(g.every(t => t.length === 1) ? g.join("") : g.join(" ")); }
+  let fs = AREA_FS;
+  const wide = Math.max.apply(null, lines.map(l => areaW(l, fs)));
+  if (wide > boxW) fs *= boxW / wide;                        // hanya mengecil jika kodenya terlalu panjang
+  if (lines.length * fs * 1.15 > boxH) fs = boxH / (lines.length * 1.15);
+  return { lines, fs, lh: fs * 1.15 };
 }
 const DEFAULT_WEB = "https://darulknafm-coder.github.io/airportoperationservices/";
 function webBase() {
@@ -1081,7 +1079,7 @@ function cardSVG(r, opt) {
     const A = areaLayout(toks); const fs = A.fs, lh = A.lh;
     const top = 478 - (A.lines.length * lh) / 2 + lh / 2 + fs * 0.36;
     A.lines.forEach((t, k) => {
-      s += '<text x="414" y="' + (top + k * lh).toFixed(1) + '" ' + F + ' font-weight="bold" font-size="' + fs.toFixed(1) + '" text-anchor="middle" fill="' + fg + '">' + esc(t) + "</text>";
+      s += '<text x="414" y="' + (top + k * lh).toFixed(1) + '" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="' + fs.toFixed(1) + '" text-anchor="middle" fill="' + fg + '">' + esc(t) + "</text>";
     });
   }
   // barcode + identitas
@@ -1340,7 +1338,7 @@ async function exportDocx() {
     const toks = areaTokens(r.area); let areaX = para("");
     if (toks.length) {
       const A = areaLayout(toks, 190); const fs = A.fs, lhh = A.lh;
-      areaX = A.lines.map(t => para(run(t, fs, 1, fg), { jc: "center", line: lhh })).join("");
+      areaX = A.lines.map(t => para(run(t, fs, 1, fg).replace(new RegExp('w:(ascii|hAnsi|cs)="[^"]*"', 'g'), 'w:$1="Arial"'), { jc: "center", line: lhh })).join("");
     }
     x += row(360, cell(0, 3, para(pic(ridP, 268, 356)), { l: tw(22) }) + cell(3, 2, areaX));
     // 5 barcode + identitas
