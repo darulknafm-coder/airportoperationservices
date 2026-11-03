@@ -482,7 +482,7 @@ body.on-home header.top .user button:hover{background:rgba(255,255,255,.14)}
   <a class="navhome" id="navHome" href="#home">Beranda</a>
   <nav class="topnav" aria-label="Menu utama"><a href="#home" data-nv="home">Beranda</a><a href="#apar" data-nv="apar">Checklist APAR</a><a href="#pas" data-nv="pas">Pas Bandara</a></nav>
   <div class="sp"></div>
-  <div class="count" title="Versi aplikasi">v4.8 · 19 Okt 2026</div>
+  <div class="count" title="Versi aplikasi">v4.9 · 3 Nov 2026</div>
   <div class="count" id="countBadge">0 pas</div>
   <div class="user"><div class="av" id="uAv">?</div><span id="uName"></span><button id="btnLogout">Keluar</button></div>
 </header>
@@ -1007,6 +1007,22 @@ function areaTokens(a) {
   if (/[,;\s\/\-]/.test(a)) return a.split(/[,;\s\/\-]+/).filter(Boolean);
   return a.split("");
 }
+// Susun kode area: sedikit = ke bawah, banyak = menyamping (mis. AB / CG / PU)
+function areaLayout(toks, boxW, boxH, maxFs) {
+  boxW = boxW || 200; boxH = boxH || 330; maxFs = maxFs || 110;
+  const n = toks.length; if (!n) return null;
+  const joiner = toks.every(t => t.length === 1) ? "" : " ";
+  let best = null;
+  for (let k = 1; k <= n; k++) {
+    const lines = []; for (let i = 0; i < n; i += k) lines.push(toks.slice(i, i + k).join(joiner));
+    const wide = Math.max.apply(null, lines.map(l => textW(l, 100)));
+    const fs = Math.min(maxFs, boxH / (lines.length * 1.08), boxW / (wide / 100));
+    // menyamping hanya bila hurufnya jadi jelas lebih besar (> 12%)
+    if (!best || fs > best.fs * 1.12) best = { k, lines, fs };
+  }
+  best.lh = Math.min(boxH / best.lines.length, best.fs * 1.08);
+  return best;
+}
 const DEFAULT_WEB = "https://darulknafm-coder.github.io/airportoperationservices/";
 function webBase() {
   let u = String(S.url || "").trim();
@@ -1062,14 +1078,10 @@ function cardSVG(r, opt) {
   // area
   const toks = areaTokens(r.area);
   if (toks.length) {
-    const cols = toks.length > 6 ? 2 : 1; const perCol = Math.ceil(toks.length / cols);
-    const longest = Math.max.apply(null, toks.map(t => t.length));
-    let fs = Math.min(110, 330 / perCol * 0.92); fs = Math.min(fs, (cols === 1 ? 200 : 105) / Math.max(1, longest) * 1.45);
-    const lh = Math.min(330 / perCol, fs * 1.08); const top = 478 - (perCol * lh) / 2 + fs * 0.36 + lh / 2 - fs * 0.0;
-    toks.forEach((t, i) => {
-      const c = Math.floor(i / perCol), k = i % perCol;
-      const cx = cols === 1 ? 414 : 362 + c * 108;
-      s += '<text x="' + cx + '" y="' + (top + k * lh).toFixed(1) + '" ' + F + ' font-weight="bold" font-size="' + fs.toFixed(1) + '" text-anchor="middle" fill="' + fg + '">' + esc(t) + "</text>";
+    const A = areaLayout(toks); const fs = A.fs, lh = A.lh;
+    const top = 478 - (A.lines.length * lh) / 2 + lh / 2 + fs * 0.36;
+    A.lines.forEach((t, k) => {
+      s += '<text x="414" y="' + (top + k * lh).toFixed(1) + '" ' + F + ' font-weight="bold" font-size="' + fs.toFixed(1) + '" text-anchor="middle" fill="' + fg + '">' + esc(t) + "</text>";
     });
   }
   // barcode + identitas
@@ -1327,10 +1339,8 @@ async function exportDocx() {
     const ridP = addMedia(await photoJpeg(r), "jpeg");
     const toks = areaTokens(r.area); let areaX = para("");
     if (toks.length) {
-      const cols = toks.length > 6 ? 2 : 1, per = Math.ceil(toks.length / cols), longest = Math.max.apply(null, toks.map(t => t.length));
-      let fs = Math.min(110, 330 / per * 0.92); fs = Math.min(fs, (cols === 1 ? 200 : 105) / Math.max(1, longest) * 1.45); const lhh = Math.min(330 / per, fs * 1.08);
-      const lines = []; for (let k = 0; k < per; k++) lines.push(cols === 1 ? toks[k] : toks[k] + (toks[k + per] ? "   " + toks[k + per] : ""));
-      areaX = lines.map(t => para(run(t, fs, 1, fg), { jc: "center", line: lhh })).join("");
+      const A = areaLayout(toks, 190); const fs = A.fs, lhh = A.lh;
+      areaX = A.lines.map(t => para(run(t, fs, 1, fg), { jc: "center", line: lhh })).join("");
     }
     x += row(360, cell(0, 3, para(pic(ridP, 268, 356)), { l: tw(22) }) + cell(3, 2, areaX));
     // 5 barcode + identitas
