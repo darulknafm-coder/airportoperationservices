@@ -482,7 +482,7 @@ body.on-home header.top .user button:hover{background:rgba(255,255,255,.14)}
   <a class="navhome" id="navHome" href="#home">Beranda</a>
   <nav class="topnav" aria-label="Menu utama"><a href="#home" data-nv="home">Beranda</a><a href="#apar" data-nv="apar">Checklist APAR</a><a href="#pas" data-nv="pas">Pas Bandara</a></nav>
   <div class="sp"></div>
-  <div class="count" title="Versi aplikasi">v4.10 · 3 Nov 2026</div>
+  <div class="count" title="Versi aplikasi">v4.11 · 3 Nov 2026</div>
   <div class="count" id="countBadge">0 pas</div>
   <div class="user"><div class="av" id="uAv">?</div><span id="uName"></span><button id="btnLogout">Keluar</button></div>
 </header>
@@ -1007,13 +1007,13 @@ function areaTokens(a) {
   if (/[,;\s\/\-]/.test(a)) return a.split(/[,;\s\/\-]+/).filter(Boolean);
   return a.split("");
 }
-// Kode area: Arial 18 pt (63,5 satuan = 6,35 mm). Maks. 4 kode = ke bawah; lebih dari 4 = 2 kode per baris menyamping
+// Kode area: Arial 18 pt (63,5 satuan = 6,35 mm). Maks. 4 kode = ke bawah; lebih dari 4 = menyamping, maks. 3 baris
 const AREA_PT = 18, AREA_FS = AREA_PT * 25.4 / 72 * 10;
 function areaW(t, s) { _mc.font = "bold " + s + "px Arial, Helvetica, sans-serif"; return _mc.measureText(t).width; }
 function areaLayout(toks, boxW, boxH) {
   boxW = boxW || 200; boxH = boxH || 330;
   const n = toks.length; if (!n) return null;
-  const per = n > 4 ? 2 : 1, lines = [];
+  const per = n > 4 ? Math.max(2, Math.ceil(n / 3)) : 1, lines = [];   // >4 kode: maks. 3 baris
   for (let i = 0; i < n; i += per) { const g = toks.slice(i, i + per); lines.push(g.every(t => t.length === 1) ? g.join("") : g.join(" ")); }
   let fs = AREA_FS;
   const wide = Math.max.apply(null, lines.map(l => areaW(l, fs)));
